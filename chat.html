@@ -64,35 +64,35 @@
     }
 
     async function sendMessage() {
-        let userInput = document.getElementById("user-input").value.trim();
-        if (!userInput) return;
-        displayMessage("You", userInput);
-        
-        try {
-            const response = await fetch("https://api.openai.com/v1/chat/completions", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer YOUR_OPENAI_API_KEY"
-                },
-                body: JSON.stringify({
-                    model: "gpt-3.5-turbo",
-                    messages: [{ role: "user", content: userInput }]
-                })
-            });
-            
-            const data = await response.json();
-            let botResponse = data.choices[0].message.content;
-            displayMessage("Bot", botResponse);
-            speakResponse(botResponse);
-            showSignLanguage(botResponse);
-        } catch (error) {
-            console.error("Error fetching response:", error);
-            displayMessage("Bot", "Sorry, I couldn't process that request.");
+    let userInput = document.getElementById("user-input").value.trim();
+    if (!userInput) return;
+    
+    displayMessage("You", userInput);
+
+    try {
+        const response = await fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: userInput }),
+        });
+
+        const data = await response.json();
+        if (data.error) {
+            throw new Error(data.error);
         }
-        
-        document.getElementById("user-input").value = "";
+
+        let botResponse = data.response;
+        displayMessage("Bot", botResponse);
+        speakResponse(botResponse);
+        showSignLanguage(botResponse);
+    } catch (error) {
+        console.error("Error:", error);
+        displayMessage("Bot", "Sorry, I am unable to process your request.");
     }
+
+    document.getElementById("user-input").value = "";
+}
+
 
     function displayMessage(sender, text) {
         let chatBox = document.getElementById("chat-box");
