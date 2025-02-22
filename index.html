@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Accessible Chatbot</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        .auth-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .switch {
+            margin-top: 10px;
+            color: #007bff;
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div id="login-form">
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="login()">Login</button>
+            <p class="switch" onclick="toggleAuth()">Don't have an account? Sign up</p>
+        </div>
+        <div id="signup-form" class="hidden">
+            <h2>Sign Up</h2>
+            <input type="text" id="new-username" placeholder="Username">
+            <input type="password" id="new-password" placeholder="Password">
+            <button onclick="signup()">Sign Up</button>
+            <p class="switch" onclick="toggleAuth()">Already have an account? Login</p>
+        </div>
+    </div>
+    <script>
+        function toggleAuth() {
+            document.getElementById("login-form").classList.toggle("hidden");
+            document.getElementById("signup-form").classList.toggle("hidden");
+        }
+
+        function login() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            let storedUser = localStorage.getItem("username");
+            let storedPass = localStorage.getItem("password");
+            
+            if (username === storedUser && password === storedPass) {
+                alert("Login successful!");
+                window.location.href = "chat.html";
+            } else {
+                alert("Invalid credentials");
+            }
+        }
+
+        function signup() {
+            let newUsername = document.getElementById("new-username").value;
+            let newPassword = document.getElementById("new-password").value;
+            
+            if (newUsername && newPassword) {
+                localStorage.setItem("username", newUsername);
+                localStorage.setItem("password", newPassword);
+                alert("Sign up successful! You can now log in.");
+                toggleAuth();
+            } else {
+                alert("Please fill all fields");
+            }
+        }
+    </script>
+	
+</body>
+</html>
