@@ -54,7 +54,7 @@
         for (const char of response) {
             if (/^[a-zA-Z]$/.test(char)) {
                 const img = document.createElement('img');
-                img.src = `${char.toUpperCase()}.png`;
+                img.src = `signs/${char.toUpperCase()}.png`;
                 img.alt = char;
                 signBox.innerHTML = '';
                 signBox.appendChild(img);
