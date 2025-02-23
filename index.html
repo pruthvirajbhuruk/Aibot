@@ -83,6 +83,8 @@
             
             if (username === storedUser && password === storedPass) {
                 alert("Login successful!");
+				localStorage.setItem("isLoggedIn", "true");
+				localStorage.setItem("loggedInUser", username);
                 window.location.href = "chat.html";
             } else {
                 alert("Invalid credentials");
