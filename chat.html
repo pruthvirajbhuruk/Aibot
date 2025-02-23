@@ -3,38 +3,423 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat</title>
+    <title>Accessible Chatbot with Theme Toggle</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
-        button { margin: 10px; padding: 10px; width: 150px; }
+        /* GENERAL STYLING */
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            transition: background 0.4s ease;
+        }
+
+        /* ?? DARK MODE (DEFAULT) */
+        body.dark-mode {
+            background: linear-gradient(135deg, #0F172A, #1E293B);
+            color: #E5E7EB;
+        }
+
+        /* ?? LIGHT MODE */
+        body.light-mode {
+            background: linear-gradient(135deg, #F9FAFB, #E5E7EB);
+            color: #1F2937;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 280px;
+            padding: 30px;
+            box-shadow: 8px 0 16px rgba(0, 0, 0, 0.3);
+            border-radius: 20px 0 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background 0.4s ease;
+        }
+
+        .dark-mode .sidebar {
+            background: linear-gradient(135deg, #0F172A, #1E293B);
+            color: #FACC15;
+        }
+
+        .light-mode .sidebar {
+            background: linear-gradient(135deg, #E5E7EB, #FFFFFF);
+            color: #1F2937;
+        }
+
+        /* BUTTONS */
+        .sidebar button {
+            padding: 14px;
+            margin-bottom: 12px;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            border: none;
+        }
+
+        .dark-mode .sidebar button {
+            background: rgba(255, 223, 138, 0.1);
+            color: #FACC15;
+            border: 1px solid #FACC15;
+        }
+
+        .light-mode .sidebar button {
+            background: rgba(0, 0, 0, 0.1);
+            color: #1F2937;
+            border: 1px solid #1F2937;
+        }
+
+        .sidebar button:hover {
+            transform: scale(1.05);
+        }
+
+        /* CHAT CONTAINER */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 40px;
+            border-radius: 0 20px 20px 0;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            transition: background 0.4s ease;
+        }
+		
+		.messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            border-radius: 14px;
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid #334155;
+            box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            color: #E5E7EB;
+        }
+		
+		/* MESSAGE BUBBLES */
+        .messages p {
+            padding: 12px 18px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            width: fit-content;
+            max-width: 80%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 15px;
+        }
+
+        /* BOT MESSAGES */
+        .messages p:nth-child(odd) {
+            background: linear-gradient(135deg, #1D4ED8, #3B82F6);
+            color: white;
+            align-self: flex-start;
+        }
+
+        /* USER MESSAGES */
+        .messages p:nth-child(even) {
+            background: linear-gradient(135deg, #FACC15, #FCD34D);
+            color: #1E293B;
+            align-self: flex-end;
+        }
+
+        .dark-mode .chat-container {
+            background: rgba(30, 41, 59, 0.85);
+        }
+
+        .light-mode .chat-container {
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+        /* SIGN LANGUAGE DISPLAY */
+        .sign-box {
+            width: 260px;
+            height: 260px;
+            border-radius: 24px;
+            margin: 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background 0.4s ease, transform 0.3s;
+        }
+
+        .dark-mode .sign-box {
+            border: 3px solid #3B82F6;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .light-mode .sign-box {
+            border: 3px solid #1F2937;
+            background: rgba(0, 0, 0, 0.05);
+            color: #1F2937;
+        }
+
+        .sign-box:hover {
+            transform: scale(1.05);
+        }
+		
+		.sign-box img {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+            filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.3));
+        }
+
+        /* INPUT & BUTTONS */
+        .input-area {
+            display: flex;
+            gap: 14px;
+            margin-top: 24px;
+        }
+
+        input {
+            flex: 1;
+            padding: 16px;
+            border-radius: 30px;
+            border: 1px solid #4B5563;
+            font-size: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        /* SEND BUTTON */
+        button {
+            padding: 15px 26px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        button:first-of-type {
+            background: linear-gradient(135deg, #10B981, #34D399);
+            color: white;
+        }
+
+        button:first-of-type:hover {
+            background: linear-gradient(135deg, #059669, #16A34A);
+            transform: scale(1.05);
+        }
+
+        /* VOICE BUTTON */
+        button:last-of-type {
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            color: white;
+        }
+
+        button:last-of-type:hover {
+            background: linear-gradient(135deg, #2563EB, #1D4ED8);
+            transform: scale(1.05);
+        }
+		
+		.chat-input {
+		width: 100%;
+		padding: 12px;
+		font-size: 16px;
+		border-radius: 10px;
+		border: 1px solid;
+		transition: all 0.3s;
+		}
+
+		/* DARK MODE INPUT */
+		.dark-mode .chat-input {
+		background: #1E293B;
+		color: #E5E7EB;
+		border-color: #3B82F6;
+		}
+
+		/* LIGHT MODE INPUT */
+		.light-mode .chat-input {
+		background: #ffffff;
+		color: #1F2937;
+		border-color: #1F2937;
+		}		
+
+			.dark-mode .messages {
+    background: rgba(17, 24, 39, 0.8);
+    border: 1px solid #334155;
+    color: #E5E7EB;
+}
+
+.light-mode .messages {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #D1D5DB;
+    color: #1F2937;
+}
+		
     </style>
 </head>
-<body>
-    <h2>Welcome to Chat</h2>
-    <p id="user-info">Loading user...</p>
-    <button onclick="logout()">Logout</button>
+<body class="dark-mode">
+    <div class="sidebar">
+		<div id="user-info" style="margin-bottom: 20px;"></div>
+		<button onclick="logout()">Logout</button>
+		<button onclick="startNewChat()">New Chat</button>
+        <button onclick="toggleTheme()">Toggle Theme</button>
+    </div>
+    <div class="chat-container">
+		<div class="messages" id="chat-box"></div>
+        <div class="sign-box" id="sign-box">Sign Language Display</div>
+		<div class="input-area">
+            <input type="text" 	class="chat-input"	id="user-input" placeholder="Type your message...">
+            <button onclick="sendMessage()">Send</button>
+            <button onclick="startVoiceInput()">voice</button>
+        </div>
+    </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", async function () {
-            try {
-                let response = await fetch("https://your-backend-url.com/current_user");
-                let data = await response.json();
+	
+		function startVoiceInput() {
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.onresult = event => {
+            document.getElementById("user-input").value = event.results[0][0].transcript;
+            sendMessage();
+        };
+        recognition.start();
+    }
 
-                if (data.error) {
-                    window.location.href = "index.html"; // Redirect if not logged in
-                } else {
-                    document.getElementById("user-info").innerText = "Logged in as: " + data.username;
-                }
-            } catch (error) {
-                console.error("Error fetching user:", error);
+    function speakResponse(text) {
+        const synth = window.speechSynthesis;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        synth.speak(utterance);
+    }
+
+    async function showSignLanguage(response) {
+        const signBox = document.getElementById("sign-box");
+        signBox.innerHTML = '';
+        for (const char of response) {
+            if (/^[a-zA-Z]$/.test(char)) {
+                const img = document.createElement('img');
+                img.src = `signs/${char.toUpperCase()}.png`;
+                img.alt = char;
+                signBox.innerHTML = '';
+                signBox.appendChild(img);
+                await new Promise(resolve => setTimeout(resolve, 200));
             }
-        });
-
-        function logout() {
-            fetch("https://your-backend-url.com/logout", { method: "POST" }).then(() => {
-                window.location.href = "index.html";
-            });
         }
+    }
+
+    function sendMessage() {
+        let userInput = document.getElementById("user-input").value.trim().toLowerCase();
+        if (!userInput) return;
+        displayMessage("You", userInput);
+
+        // Dynamic responses with keyword matching
+        const responses = [
+            { keywords: ["hello", "hi"], response: "Hello! How can I assist you today?" },
+            { keywords: ["time"], response: `The current time is ${new Date().toLocaleTimeString()}` },
+            { keywords: ["how are you"], response: "I'm just a bot, but I'm here to help you!" },
+            { keywords: ["help"], response: "You can ask me about time, greetings, or how I'm doing." },
+            { keywords: ["weather"], response: "I'm unable to check live weather, but you can try asking about anything else." },
+            { keywords: ["name"], response: "I am your accessible chatbot assistant." },
+            { keywords: ["bye", "goodbye"], response: "Goodbye! Have a great day!" }
+        ];
+
+        let botResponse = "I'm not sure how to answer that. Can you rephrase?";
+        
+        // Find a matching response
+        for (const item of responses) {
+            if (item.keywords.some(keyword => userInput.includes(keyword))) {
+                botResponse = item.response;
+                break;
+            }
+        }
+
+        displayMessage("Bot", botResponse);
+	saveChatHistory("You", userInput);
+    	saveChatHistory("Bot", botResponse);    
+        speakResponse(botResponse);
+        showSignLanguage(botResponse);
+        document.getElementById("user-input").value = "";
+    }
+
+    function displayMessage(sender, text) {
+        let chatBox = document.getElementById("chat-box");
+        let messageElement = document.createElement("p");
+        messageElement.textContent = `${sender}: ${text}`;
+        chatBox.appendChild(messageElement);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function startNewChat() {
+	const username = localStorage.getItem("loggedInUser");
+    	localStorage.removeItem(`${username}_chatHistory`);
+        document.getElementById("chat-box").innerHTML = "";
+        document.getElementById("sign-box").innerHTML = "";
+    }
+	
+        function toggleTheme() {
+            document.body.classList.toggle("dark-mode");
+            document.body.classList.toggle("light-mode");
+
+            // Save theme preference in local storage
+            const currentTheme = document.body.classList.contains("dark-mode") ? "dark" : "light";
+            localStorage.setItem("theme", currentTheme);
+        }
+
+        // Load the saved theme preference
+        window.onload = function () {
+            const savedTheme = localStorage.getItem("theme");
+            if (savedTheme) {
+                document.body.classList.remove("dark-mode", "light-mode");
+                document.body.classList.add(savedTheme + "-mode");
+            }
+        };
+		
+		// Display user info
+window.onload = function () {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    const username = localStorage.getItem("loggedInUser");
+
+    if (isLoggedIn !== "true") {
+        // Redirect to login if not logged in
+        window.location.href = "index.html";
+    } else {
+        document.getElementById("user-info").innerHTML = `Logged in as <strong>${username}</strong>`;
+
+
+	// Load previous chat history
+loadChatHistory();
+
+function loadChatHistory() {
+    const username = localStorage.getItem("loggedInUser");
+    let chatHistory = JSON.parse(localStorage.getItem(`${username}_chatHistory`)) || [];
+
+    chatHistory.forEach(chat => {
+        displayMessage(chat.sender, chat.message);
+    });
+}    
+        
+        // Load theme preference
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+            document.body.classList.remove("dark-mode", "light-mode");
+            document.body.classList.add(savedTheme + "-mode");
+        }
+    }
+};
+
+// Logout function
+function logout() {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("loggedInUser");
+    window.location.href = "index.html";
+}
+
+function saveChatHistory(sender, message) {
+    const username = localStorage.getItem("loggedInUser");
+    let chatHistory = JSON.parse(localStorage.getItem(`${username}_chatHistory`)) || [];
+    chatHistory.push({ sender, message });
+    localStorage.setItem(`${username}_chatHistory`, JSON.stringify(chatHistory));
+}	    
+		
     </script>
 </body>
 </html>
