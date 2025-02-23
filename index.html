@@ -1,8 +1,16 @@
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 <!DOCTYPE html>
+
 <html lang="en">
+	
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js"></script>
+
     <title>Login - Accessible Chatbot</title>
     <link rel="stylesheet" href="styles.css">
     <style>
@@ -75,35 +83,61 @@
             document.getElementById("signup-form").classList.toggle("hidden");
         }
 
-        function login() {
-            let username = document.getElementById("username").value;
-            let password = document.getElementById("password").value;
-            let storedUser = localStorage.getItem("username");
-            let storedPass = localStorage.getItem("password");
-            
-            if (username === storedUser && password === storedPass) {
-                alert("Login successful!");
-				localStorage.setItem("isLoggedIn", "true");
-				localStorage.setItem("loggedInUser", username);
-                window.location.href = "chat.html";
-            } else {
-                alert("Invalid credentials");
-            }
+        async function login() {
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+
+        try {
+            let userCredential = await auth.signInWithEmailAndPassword(username, password);
+            alert("Login successful!");
+
+            // Redirect to chat page
+            window.location.href = "chat.html";
+        } catch (error) {
+            alert("Invalid credentials");
+        }
+    }
+
+        async function signup() {
+        let newUsername = document.getElementById("new-username").value;
+        let newPassword = document.getElementById("new-password").value;
+
+        if (!newUsername || !newPassword) {
+            alert("Please fill all fields");
+            return;
         }
 
-        function signup() {
-            let newUsername = document.getElementById("new-username").value;
-            let newPassword = document.getElementById("new-password").value;
+        try {
+            let userCredential = await auth.createUserWithEmailAndPassword(newUsername, newPassword);
+            let user = userCredential.user;
             
-            if (newUsername && newPassword) {
-                localStorage.setItem("username", newUsername);
-                localStorage.setItem("password", newPassword);
-                alert("Sign up successful! You can now log in.");
-                toggleAuth();
-            } else {
-                alert("Please fill all fields");
-            }
+            // Store user details in Firestore
+            await db.collection("users").doc(user.uid).set({
+                username: newUsername,
+                email: newUsername,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+            alert("Sign up successful! You can now log in.");
+            toggleAuth();
+        } catch (error) {
+            alert(error.message);
         }
+    }
+
+	const firebaseConfig = {
+  apiKey: "AIzaSyAdsWtpNm2KyuVO_AwWU_Swbx9AzbxYPQE",
+  authDomain: "aichatbot-f6710.firebaseapp.com",
+  projectId: "aichatbot-f6710",
+  storageBucket: "aichatbot-f6710.firebasestorage.app",
+  messagingSenderId: "665819177110",
+  appId: "1:665819177110:web:42674515c47939cac562b7",
+  measurementId: "G-VL3M4S7LMW"
+};    
+
+	    // Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
     </script>
 	
 </body>
