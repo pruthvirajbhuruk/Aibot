@@ -408,10 +408,13 @@ function loadChatHistory() {
 
 // Logout function
 function logout() {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("loggedInUser");
-    window.location.href = "index.html";
-}
+        auth.signOut().then(() => {
+            alert("Logged out successfully!");
+            window.location.href = "index.html";
+        }).catch(error => {
+            alert(error.message);
+        });
+    }
 
 function saveChatHistory(sender, message) {
     const username = localStorage.getItem("loggedInUser");
