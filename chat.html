@@ -349,6 +349,8 @@
     }
 
     function startNewChat() {
+	const username = localStorage.getItem("loggedInUser");
+    	localStorage.removeItem(`${username}_chatHistory`);
         document.getElementById("chat-box").innerHTML = "";
         document.getElementById("sign-box").innerHTML = "";
     }
