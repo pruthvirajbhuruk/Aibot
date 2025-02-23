@@ -333,6 +333,8 @@
         }
 
         displayMessage("Bot", botResponse);
+	saveChatHistory("You", userInput);
+    	saveChatHistory("Bot", botResponse);    
         speakResponse(botResponse);
         showSignLanguage(botResponse);
         document.getElementById("user-input").value = "";
@@ -395,6 +397,13 @@ function logout() {
     localStorage.removeItem("loggedInUser");
     window.location.href = "index.html";
 }
+
+function saveChatHistory(sender, message) {
+    const username = localStorage.getItem("loggedInUser");
+    let chatHistory = JSON.parse(localStorage.getItem(`${username}_chatHistory`)) || [];
+    chatHistory.push({ sender, message });
+    localStorage.setItem(`${username}_chatHistory`, JSON.stringify(chatHistory));
+}	    
 		
     </script>
 </body>
