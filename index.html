@@ -3,10 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js"></script>
-    
+    <script type="module">
+        // Import Firebase SDK (Modular Format)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAdsWtpNm2KyuVO_AwWU_Swbx9AzbxYPQE",
+            authDomain: "aichatbot-f6710.firebaseapp.com",
+            projectId: "aichatbot-f6710",
+            storageBucket: "aichatbot-f6710.appspot.com",
+            messagingSenderId: "665819177110",
+            appId: "1:665819177110:web:42674515c47939cac562b7",
+            measurementId: "G-VL3M4S7LMW"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Function to toggle login/signup forms
+        window.toggleAuth = function () {
+            document.getElementById("login-form").classList.toggle("hidden");
+            document.getElementById("signup-form").classList.toggle("hidden");
+        };
+
+        // Login Function
+        window.login = async function () {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+
+            try {
+                await signInWithEmailAndPassword(auth, username, password);
+                alert("Login successful!");
+                window.location.href = "chat.html"; // Redirect to chat page
+            } catch (error) {
+                alert("Invalid credentials: " + error.message);
+            }
+        };
+
+        // Signup Function
+        window.signup = async function () {
+            let newUsername = document.getElementById("new-username").value;
+            let newPassword = document.getElementById("new-password").value;
+
+            if (!newUsername || !newPassword) {
+                alert("Please fill all fields");
+                return;
+            }
+
+            try {
+                let userCredential = await createUserWithEmailAndPassword(auth, newUsername, newPassword);
+                let user = userCredential.user;
+
+                // Store user details in Firestore
+                await setDoc(doc(collection(db, "users"), user.uid), {
+                    username: newUsername,
+                    email: newUsername,
+                    createdAt: serverTimestamp()
+                });
+
+                alert("Sign up successful! You can now log in.");
+                toggleAuth();
+            } catch (error) {
+                alert("Error: " + error.message);
+            }
+        };
+    </script>
     <title>Login - Accessible Chatbot</title>
     <style>
         body {
@@ -72,68 +138,5 @@
             <p class="switch" onclick="toggleAuth()">Already have an account? Login</p>
         </div>
     </div>
-
-    <script>
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyAdsWtpNm2KyuVO_AwWU_Swbx9AzbxYPQE",
-            authDomain: "aichatbot-f6710.firebaseapp.com",
-            projectId: "aichatbot-f6710",
-            storageBucket: "aichatbot-f6710.appspot.com",
-            messagingSenderId: "665819177110",
-            appId: "1:665819177110:web:42674515c47939cac562b7",
-            measurementId: "G-VL3M4S7LMW"
-        };
-
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
-        function toggleAuth() {
-            document.getElementById("login-form").classList.toggle("hidden");
-            document.getElementById("signup-form").classList.toggle("hidden");
-        }
-
-        async function login() {
-            let username = document.getElementById("username").value;
-            let password = document.getElementById("password").value;
-
-            try {
-                let userCredential = await auth.signInWithEmailAndPassword(username, password);
-                alert("Login successful!");
-                window.location.href = "chat.html"; // Redirect to chat page
-            } catch (error) {
-                alert("Invalid credentials: " + error.message);
-            }
-        }
-
-        async function signup() {
-            let newUsername = document.getElementById("new-username").value;
-            let newPassword = document.getElementById("new-password").value;
-
-            if (!newUsername || !newPassword) {
-                alert("Please fill all fields");
-                return;
-            }
-
-            try {
-                let userCredential = await auth.createUserWithEmailAndPassword(newUsername, newPassword);
-                let user = userCredential.user;
-
-                // Store user details in Firestore
-                await db.collection("users").doc(user.uid).set({
-                    username: newUsername,
-                    email: newUsername,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-
-                alert("Sign up successful! You can now log in.");
-                toggleAuth();
-            } catch (error) {
-                alert("Error: " + error.message);
-            }
-        }
-    </script>
 </body>
 </html>
