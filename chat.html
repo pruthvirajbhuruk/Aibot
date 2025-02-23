@@ -381,6 +381,19 @@ window.onload = function () {
         window.location.href = "index.html";
     } else {
         document.getElementById("user-info").innerHTML = `Logged in as <strong>${username}</strong>`;
+
+
+	// Load previous chat history
+loadChatHistory();
+
+function loadChatHistory() {
+    const username = localStorage.getItem("loggedInUser");
+    let chatHistory = JSON.parse(localStorage.getItem(`${username}_chatHistory`)) || [];
+
+    chatHistory.forEach(chat => {
+        displayMessage(chat.sender, chat.message);
+    });
+}    
         
         // Load theme preference
         const savedTheme = localStorage.getItem("theme");
