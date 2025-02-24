@@ -390,7 +390,12 @@ function sendMessage() {
 
     let botResponse = "I'm not sure how to answer that. Can you rephrase?";
 
-    if (currentChapter) {
+    // 1️⃣ **Check if PDF Mode is active**
+    if (pdfMode && pdfText) {
+        botResponse = searchPDFContent(userInput, pdfText) || botResponse;
+    }
+    // 2️⃣ **Check if a Chapter Mode is active**
+    else if (currentChapter) {
         const chapterResponses = {
             "Agriculture": [
                 { keywords: ["farming", "crops"], response: "Agriculture involves growing crops and raising livestock." },
@@ -414,7 +419,9 @@ function sendMessage() {
                 }
             }
         }
-    } else {
+    }
+    // 3️⃣ **If no PDF or Chapter Mode, use General Responses**
+    else {
         const generalResponses = [
             { keywords: ["hello", "hi"], response: "Hello! How can I assist you today?" },
             { keywords: ["time"], response: `The current time is ${new Date().toLocaleTimeString()}` },
@@ -433,13 +440,19 @@ function sendMessage() {
         }
     }
 
+    // ✅ Display bot's response
     displayMessage("Bot", botResponse);
     saveChatHistory("You", userInput);
     saveChatHistory("Bot", botResponse);
     speakResponse(botResponse);
     showSignLanguage(botResponse);
+    
+    // ✅ Clear input field
     document.getElementById("user-input").value = "";
 }
+
+	    
+
 
 function toggleChapter(chapter) {
     const button = document.getElementById(chapter + "-btn");
@@ -555,27 +568,6 @@ async function extractTextFromPDF(pdfData) {
     }
 
     return extractedText;
-}
-
-function sendMessage() {
-    let userInput = document.getElementById("user-input").value.trim().toLowerCase();
-    if (!userInput) return;
-    displayMessage("You", userInput);
-
-    let botResponse = "I'm not sure how to answer that. Can you rephrase?";
-
-    if (pdfMode && pdfText) {
-        botResponse = searchPDFContent(userInput, pdfText) || botResponse;
-    } else if (currentChapter) {
-        botResponse = getChapterResponse(userInput) || botResponse;
-    } else {
-        botResponse = getGeneralResponse(userInput) || botResponse;
-    }
-
-    displayMessage("Bot", botResponse);
-    speakResponse(botResponse);
-    showSignLanguage(botResponse);
-    document.getElementById("user-input").value = "";
 }
 
 function searchPDFContent(query, pdfContent) {
