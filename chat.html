@@ -308,44 +308,55 @@
 
     <script>
 	
-		function startVoiceInput() {
-        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        recognition.onresult = event => {
-            document.getElementById("user-input").value = event.results[0][0].transcript;
-            sendMessage();
-        };
-        recognition.start();
-    }
+		let currentChapter = "";
 
-    function speakResponse(text) {
-        const synth = window.speechSynthesis;
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US';
-        synth.speak(utterance);
-    }
+function startVoiceInput() {
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.onresult = event => {
+        document.getElementById("user-input").value = event.results[0][0].transcript;
+        sendMessage();
+    };
+    recognition.start();
+}
 
-    async function showSignLanguage(response) {
-        const signBox = document.getElementById("sign-box");
-        signBox.innerHTML = '';
-        for (const char of response) {
-            if (/^[a-zA-Z]$/.test(char)) {
-                const img = document.createElement('img');
-                img.src = `signs/${char.toUpperCase()}.png`;
-                img.alt = char;
-                signBox.innerHTML = '';
-                signBox.appendChild(img);
-                await new Promise(resolve => setTimeout(resolve, 200));
-            }
+function speakResponse(text) {
+    const synth = window.speechSynthesis;
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    synth.speak(utterance);
+}
+
+async function showSignLanguage(response) {
+    const signBox = document.getElementById("sign-box");
+    signBox.innerHTML = '';
+    for (const char of response) {
+        if (/^[a-zA-Z]$/.test(char)) {
+            const img = document.createElement('img');
+            img.src = `signs/${char.toUpperCase()}.png`;
+            img.alt = char;
+            signBox.innerHTML = '';
+            signBox.appendChild(img);
+            await new Promise(resolve => setTimeout(resolve, 200));
         }
     }
+}
 
-    function sendMessage() {
-        let userInput = document.getElementById("user-input").value.trim().toLowerCase();
-        if (!userInput) return;
-        displayMessage("You", userInput);
+function sendMessage() {
+    let userInput = document.getElementById("user-input").value.trim().toLowerCase();
+    if (!userInput) return;
+    displayMessage("You", userInput);
 
-        // Dynamic responses with keyword matching
-        const responses = [
+    let botResponse = "I'm not sure how to answer that. Can you rephrase?";
+
+    if (currentChapter) {
+        const chapterResponses = {
+            "agriculture": "Agriculture is the practice of farming, including growing crops and raising animals.",
+            "space": "Space is the vast universe beyond Earth's atmosphere, filled with stars, planets, and galaxies.",
+            "technology": "Technology refers to the use of scientific knowledge to create tools and machines that help solve problems."
+        };
+        botResponse = chapterResponses[currentChapter] || "This chapter has no specific answer for that question.";
+    } else {
+        const generalResponses = [
             { keywords: ["hello", "hi"], response: "Hello! How can I assist you today?" },
             { keywords: ["time"], response: `The current time is ${new Date().toLocaleTimeString()}` },
             { keywords: ["how are you"], response: "I'm just a bot, but I'm here to help you!" },
@@ -354,72 +365,79 @@
             { keywords: ["name"], response: "I am your accessible chatbot assistant." },
             { keywords: ["bye", "goodbye"], response: "Goodbye! Have a great day!" }
         ];
-
-        let botResponse = "I'm not sure how to answer that. Can you rephrase?";
         
-        // Find a matching response
-        for (const item of responses) {
+        for (const item of generalResponses) {
             if (item.keywords.some(keyword => userInput.includes(keyword))) {
                 botResponse = item.response;
                 break;
             }
         }
-
-        displayMessage("Bot", botResponse);
-	saveChatHistory("You", userInput);
-    	saveChatHistory("Bot", botResponse);    
-        speakResponse(botResponse);
-        showSignLanguage(botResponse);
-        document.getElementById("user-input").value = "";
     }
 
-    function displayMessage(sender, text) {
-        let chatBox = document.getElementById("chat-box");
-        let messageElement = document.createElement("p");
-        messageElement.textContent = `${sender}: ${text}`;
-        chatBox.appendChild(messageElement);
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
+    displayMessage("Bot", botResponse);
+    saveChatHistory("You", userInput);
+    saveChatHistory("Bot", botResponse);
+    speakResponse(botResponse);
+    showSignLanguage(botResponse);
+    document.getElementById("user-input").value = "";
+}
 
-    function startNewChat() {
-	const username = localStorage.getItem("loggedInUser");
-    	localStorage.removeItem(`${username}_chatHistory`);
-        document.getElementById("chat-box").innerHTML = "";
-        document.getElementById("sign-box").innerHTML = "";
-    }
-	
-        function toggleTheme() {
-            document.body.classList.toggle("dark-mode");
-            document.body.classList.toggle("light-mode");
+function selectChapter(chapter) {
+    currentChapter = chapter.toLowerCase();
+    displayMessage("Bot", `You are now in Learn Mode: ${chapter}`);
+}
 
-            // Save theme preference in local storage
-            const currentTheme = document.body.classList.contains("dark-mode") ? "dark" : "light";
-            localStorage.setItem("theme", currentTheme);
-        }
+function exitChapter() {
+    currentChapter = "";
+    displayMessage("Bot", "Exited Learn Mode. Back to normal chatbot.");
+}
 
-        // Load the saved theme preference
-        window.onload = function () {
-            const savedTheme = localStorage.getItem("theme");
-            if (savedTheme) {
-                document.body.classList.remove("dark-mode", "light-mode");
-                document.body.classList.add(savedTheme + "-mode");
-            }
-        };
-		
-		// Display user info
+function displayMessage(sender, text) {
+    let chatBox = document.getElementById("chat-box");
+    let messageElement = document.createElement("p");
+    messageElement.textContent = `${sender}: ${text}`;
+    chatBox.appendChild(messageElement);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function startNewChat() {
+    const username = localStorage.getItem("loggedInUser");
+    localStorage.removeItem(`${username}_chatHistory`);
+    document.getElementById("chat-box").innerHTML = "";
+    document.getElementById("sign-box").innerHTML = "";
+}
+
+function saveChatHistory(sender, message) {
+    const username = localStorage.getItem("loggedInUser");
+    let chatHistory = JSON.parse(localStorage.getItem(`${username}_chatHistory`)) || [];
+    chatHistory.push({ sender, message });
+    localStorage.setItem(`${username}_chatHistory`, JSON.stringify(chatHistory));
+}
+
+function toggleTheme() {
+    document.body.classList.toggle("dark-mode");
+    document.body.classList.toggle("light-mode");
+    const currentTheme = document.body.classList.contains("dark-mode") ? "dark" : "light";
+    localStorage.setItem("theme", currentTheme);
+}
+
 window.onload = function () {
     const isLoggedIn = localStorage.getItem("isLoggedIn");
     const username = localStorage.getItem("loggedInUser");
 
     if (isLoggedIn !== "true") {
-        // Redirect to login if not logged in
         window.location.href = "index.html";
     } else {
         document.getElementById("user-info").innerHTML = `Logged in as <strong>${username}</strong>`;
+        loadChatHistory();
+    }
 
-
-	// Load previous chat history
-loadChatHistory();
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+        document.body.classList.remove("dark-mode", "light-mode");
+        document.body.classList.add(savedTheme + "-mode");
+    }
+};
 
 function loadChatHistory() {
     const username = localStorage.getItem("loggedInUser");
@@ -428,86 +446,15 @@ function loadChatHistory() {
     chatHistory.forEach(chat => {
         displayMessage(chat.sender, chat.message);
     });
-}    
-        
-        // Load theme preference
-        const savedTheme = localStorage.getItem("theme");
-        if (savedTheme) {
-            document.body.classList.remove("dark-mode", "light-mode");
-            document.body.classList.add(savedTheme + "-mode");
-        }
-    }
-};
+}
 
-// Logout function
 function logout() {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("loggedInUser");
     window.location.href = "index.html";
 }
 
-function saveChatHistory(sender, message) {
-    const username = localStorage.getItem("loggedInUser");
-    let chatHistory = JSON.parse(localStorage.getItem(`${username}_chatHistory`)) || [];
-    chatHistory.push({ sender, message });
-    localStorage.setItem(`${username}_chatHistory`, JSON.stringify(chatHistory));
-}	
-
-// newly added script
-
-	      let currentChapter = "";
-        
-        function selectChapter(chapter) {
-            currentChapter = chapter;
-            displayMessage("Bot", `You are now in Learn Mode: ${chapter}`);
-        }
-        
-        function exitChapter() {
-            currentChapter = "";
-            displayMessage("Bot", "Exited Learn Mode. Back to normal chatbot.");
-        }
-        
-        function sendMessage() {
-            let userInput = document.getElementById("user-input").value.trim().toLowerCase();
-            if (!userInput) return;
-            displayMessage("You", userInput);
-            
-            let botResponse = "I'm not sure how to answer that. Can you rephrase?";
-            
-            if (currentChapter) {
-                const chapterResponses = {
-                    "Agriculture": "Agriculture is the practice of farming, including growing crops and raising animals.",
-                    "Space": "Space is the vast universe beyond Earth's atmosphere, filled with stars, planets, and galaxies.",
-                    "Technology": "Technology refers to the use of scientific knowledge to create tools and machines that help solve problems."
-                };
-                botResponse = chapterResponses[currentChapter] || "This chapter has no specific answer for that question.";
-            } else {
-                const generalResponses = {
-                    "hello": "Hello! How can I assist you today?",
-                    "how are you": "I'm just a bot, but I'm here to help you!",
-                    "bye": "Goodbye! Have a great day!"
-                };
-                
-                for (const keyword in generalResponses) {
-                    if (userInput.includes(keyword)) {
-                        botResponse = generalResponses[keyword];
-                        break;
-                    }
-                }
-            }
-            
-            displayMessage("Bot", botResponse);
-            document.getElementById("user-input").value = "";
-        }
-        
-        function displayMessage(sender, text) {
-            let chatBox = document.getElementById("chat-box");
-            let messageElement = document.createElement("p");
-            messageElement.textContent = `${sender}: ${text}`;
-            chatBox.appendChild(messageElement);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-		
+	    
     </script>
 </body>
 </html>
