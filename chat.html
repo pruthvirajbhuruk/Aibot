@@ -324,9 +324,13 @@
         	</div>   
 	    <!-- PDF Upload Section -->
 <div class="input-area">
-    <input type="file" id="pdf-upload" accept="application/pdf">
+    <label for="pdf-upload" style="cursor: pointer; background: #1E293B; padding: 10px; border-radius: 5px; color: white;">
+        Choose PDF
+    </label>
+    <input type="file" id="pdf-upload" accept="application/pdf" style="display: none;">
     <button onclick="uploadPDF()">Upload PDF</button>
 </div>
+
     </div>
     <div class="chat-container">
 	    <div id="notification" class="notification-panel">General Mode</div>
