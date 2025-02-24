@@ -320,6 +320,11 @@
 
 	let currentChapter = "";
 
+	    function updateNotification() {
+    const notificationPanel = document.getElementById("notification");
+    notificationPanel.textContent = currentChapter ? `Learn Mode: ${currentChapter}` : "General Mode";
+}
+
 function startVoiceInput() {
     const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
     recognition.onresult = event => {
@@ -415,15 +420,14 @@ function toggleChapter(chapter) {
     if (currentChapter === chapter) {
         currentChapter = "";
         button.textContent = chapter;
-        displayMessage("Bot", "Exited Learn Mode. Back to normal chatbot.");
     } else {
         if (currentChapter) {
             document.getElementById(currentChapter + "-btn").textContent = currentChapter; 
         }
         currentChapter = chapter;
         button.textContent = "Exit " + chapter + " Mode";
-        displayMessage("Bot", `You are now in Learn Mode: ${chapter}`);
     }
+	updateNotification();
 }
 
 function displayMessage(sender, text) {
@@ -450,6 +454,7 @@ function toggleTheme() {
 }
 
 window.onload = function () {
+	updateNotification();
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
         document.body.classList.remove("dark-mode", "light-mode");
