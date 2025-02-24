@@ -320,9 +320,7 @@
 	    <button id="Space-btn" onclick="toggleChapter('Space')">Space</button>
 	    <button id="Technology-btn" onclick="toggleChapter('Technology')">Technology</button>
 
-        	</div>   
-	    <input type="file" id="pdf-upload" accept=".pdf">
-<button onclick="handlePDFUpload()">Upload PDF</button>
+        	</div>    
     </div>
     <div class="chat-container">
 	    <div id="notification" class="notification-panel">General Mode</div>
@@ -515,75 +513,5 @@ function logout() {
 
 	    
     </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js">
-	function handlePDFUpload() {
-  const fileInput = document.getElementById('pdf-upload');
-  const file = fileInput.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function(event) {
-      const arrayBuffer = event.target.result;
-      extractTextFromPDF(arrayBuffer);
-    };
-    reader.readAsArrayBuffer(file);
-  }
-}
-
-function extractTextFromPDF(arrayBuffer) {
-  const loadingTask = pdfjsLib.getDocument(arrayBuffer);
-  loadingTask.promise.then(function(pdf) {
-    let textContent = '';
-    const numPages = pdf.numPages;
-
-    // Loop through all pages of the PDF to extract text
-    for (let pageNum = 1; pageNum <= numPages; pageNum++) {
-      pdf.getPage(pageNum).then(function(page) {
-        page.getTextContent().then(function(text) {
-          textContent += text.items.map(item => item.str).join(' ') + '\n';
-          if (pageNum === numPages) {
-            processPDFText(textContent);
-          }
-        });
-      });
-    }
-  });
-}
-
-function processPDFText(textContent) {
-  // Store the extracted text for future use
-  window.pdfData = textContent;
-  console.log('Extracted PDF Text:', textContent);
-  // You can now feed this text to your chatbot
-}
-
-function searchPDF(query) {
-  if (window.pdfData) {
-    const lowerCaseQuery = query.toLowerCase();
-    const foundText = window.pdfData
-      .split('\n')
-      .filter(line => line.toLowerCase().includes(lowerCaseQuery));
-    
-    if (foundText.length > 0) {
-      return foundText.join('\n');
-    } else {
-      return "Sorry, I couldn't find anything related in the PDF.";
-    }
-  }
-  return "PDF data not available.";
-}
-
-function handleUserQuery(query) {
-  const pdfAnswer = searchPDF(query);
-  if (pdfAnswer) {
-    displayAnswer(pdfAnswer);
-  } else {
-    // fallback to general chatbot answer
-    displayAnswer("I'm not sure about that. Let me help you with something else!");
-  }
-}
-	
-	
-</script>
-	
 </body>
 </html>
