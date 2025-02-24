@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accessible Chatbot with Theme Toggle</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <style>
         /* GENERAL STYLING */
         body {
@@ -320,7 +321,12 @@
 	    <button id="Space-btn" onclick="toggleChapter('Space')">Space</button>
 	    <button id="Technology-btn" onclick="toggleChapter('Technology')">Technology</button>
 
-        	</div>    
+        	</div>   
+	    <!-- PDF Upload Section -->
+<div class="input-area">
+    <input type="file" id="pdf-upload" accept="application/pdf">
+    <button onclick="uploadPDF()">Upload PDF</button>
+</div>
     </div>
     <div class="chat-container">
 	    <div id="notification" class="notification-panel">General Mode</div>
@@ -510,6 +516,75 @@ function logout() {
     localStorage.removeItem("loggedInUser");
     window.location.href = "index.html";
 }
+
+	    let pdfText = ""; // Stores extracted PDF text
+let pdfMode = false; // Track if chatbot is in PDF mode
+
+async function uploadPDF() {
+    const fileInput = document.getElementById("pdf-upload");
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert("Please select a PDF file.");
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async function () {
+        const typedArray = new Uint8Array(reader.result);
+        pdfText = await extractTextFromPDF(typedArray);
+        pdfMode = true;
+        updateNotification("PDF Mode Activated");
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+async function extractTextFromPDF(pdfData) {
+    const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
+    let extractedText = "";
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const textContent = await page.getTextContent();
+        const textItems = textContent.items.map(item => item.str);
+        extractedText += textItems.join(" ") + " ";
+    }
+
+    return extractedText;
+}
+
+function sendMessage() {
+    let userInput = document.getElementById("user-input").value.trim().toLowerCase();
+    if (!userInput) return;
+    displayMessage("You", userInput);
+
+    let botResponse = "I'm not sure how to answer that. Can you rephrase?";
+
+    if (pdfMode && pdfText) {
+        botResponse = searchPDFContent(userInput, pdfText) || botResponse;
+    } else if (currentChapter) {
+        botResponse = getChapterResponse(userInput) || botResponse;
+    } else {
+        botResponse = getGeneralResponse(userInput) || botResponse;
+    }
+
+    displayMessage("Bot", botResponse);
+    speakResponse(botResponse);
+    showSignLanguage(botResponse);
+    document.getElementById("user-input").value = "";
+}
+
+function searchPDFContent(query, pdfContent) {
+    query = query.toLowerCase();
+    const sentences = pdfContent.split(". ");
+    for (let sentence of sentences) {
+        if (sentence.toLowerCase().includes(query)) {
+            return sentence.trim() + ".";
+        }
+    }
+    return "I couldn't find relevant information in the PDF.";
+}
+
 
 	    
     </script>
