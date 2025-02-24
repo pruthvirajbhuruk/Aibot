@@ -253,6 +253,31 @@
     border: 1px solid #D1D5DB;
     color: #1F2937;
 }
+	     .chapter-list {
+            margin-top: 20px;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+        .chapter-button {
+            padding: 10px;
+            margin: 5px 0;
+            width: 100%;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .dark-mode .chapter-button {
+            background: #1E293B;
+            color: #FACC15;
+        }
+        .light-mode .chapter-button {
+            background: #E5E7EB;
+            color: #1F2937;
+        }
+        .chapter-button:hover {
+            opacity: 0.8;
+        }
 		
     </style>
 </head>
@@ -261,7 +286,15 @@
 		<div id="user-info" style="margin-bottom: 20px;"></div>
 		<button onclick="logout()">Logout</button>
 		<button onclick="startNewChat()">New Chat</button>
-        <button onclick="toggleTheme()">Toggle Theme</button>
+      		<button onclick="toggleTheme()">Toggle Theme</button>
+		<div class="chapter-list">
+            <h3>Learn From Chapter</h3>
+            <button class="chapter-button" onclick="selectChapter('General')">General</button>
+            <button class="chapter-button" onclick="selectChapter('Agriculture')">Agriculture</button>
+            <button class="chapter-button" onclick="selectChapter('Space')">Space</button>
+            <button class="chapter-button" onclick="selectChapter('Technology')">Technology</button>
+            <button class="chapter-button" onclick="exitChapter()">Exit Chapter Mode</button>
+        	</div>    
     </div>
     <div class="chat-container">
 		<div class="messages" id="chat-box"></div>
@@ -418,7 +451,62 @@ function saveChatHistory(sender, message) {
     let chatHistory = JSON.parse(localStorage.getItem(`${username}_chatHistory`)) || [];
     chatHistory.push({ sender, message });
     localStorage.setItem(`${username}_chatHistory`, JSON.stringify(chatHistory));
-}	    
+}	
+
+// newly added script
+
+	      let currentChapter = "";
+        
+        function selectChapter(chapter) {
+            currentChapter = chapter;
+            displayMessage("Bot", `You are now in Learn Mode: ${chapter}`);
+        }
+        
+        function exitChapter() {
+            currentChapter = "";
+            displayMessage("Bot", "Exited Learn Mode. Back to normal chatbot.");
+        }
+        
+        function sendMessage() {
+            let userInput = document.getElementById("user-input").value.trim().toLowerCase();
+            if (!userInput) return;
+            displayMessage("You", userInput);
+            
+            let botResponse = "I'm not sure how to answer that. Can you rephrase?";
+            
+            if (currentChapter) {
+                const chapterResponses = {
+                    "Agriculture": "Agriculture is the practice of farming, including growing crops and raising animals.",
+                    "Space": "Space is the vast universe beyond Earth's atmosphere, filled with stars, planets, and galaxies.",
+                    "Technology": "Technology refers to the use of scientific knowledge to create tools and machines that help solve problems."
+                };
+                botResponse = chapterResponses[currentChapter] || "This chapter has no specific answer for that question.";
+            } else {
+                const generalResponses = {
+                    "hello": "Hello! How can I assist you today?",
+                    "how are you": "I'm just a bot, but I'm here to help you!",
+                    "bye": "Goodbye! Have a great day!"
+                };
+                
+                for (const keyword in generalResponses) {
+                    if (userInput.includes(keyword)) {
+                        botResponse = generalResponses[keyword];
+                        break;
+                    }
+                }
+            }
+            
+            displayMessage("Bot", botResponse);
+            document.getElementById("user-input").value = "";
+        }
+        
+        function displayMessage(sender, text) {
+            let chatBox = document.getElementById("chat-box");
+            let messageElement = document.createElement("p");
+            messageElement.textContent = `${sender}: ${text}`;
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
 		
     </script>
 </body>
