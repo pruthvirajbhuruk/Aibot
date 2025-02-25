@@ -329,6 +329,7 @@
     </label>
     <input type="file" id="pdf-upload" accept="application/pdf" style="display: none;">
     <button onclick="uploadPDF()">Upload PDF</button>
+     <button id="pdf-mode-btn" onclick="togglePDFMode()" style="display:none;">Enter PDF Mode</button>
 </div>
 
     </div>
@@ -349,8 +350,14 @@
 
 	    function updateNotification() {
     const notificationPanel = document.getElementById("notification");
-    notificationPanel.textContent = currentChapter ? `Learn Mode: ${currentChapter}` : "General Mode";
-}
+    if (currentMode === "pdf") {
+        notificationPanel.textContent = "PDF Mode Activated";
+    } else if (currentMode === "learn") {
+        notificationPanel.textContent = `Learn Mode: ${currentChapter}`;
+    } else {
+        notificationPanel.textContent = "General Mode";
+    }
+}																																																																																																																																																																																																																																																																					
 
 function startVoiceInput() {
     const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
@@ -550,8 +557,8 @@ async function uploadPDF() {
     reader.onload = async function () {
         const typedArray = new Uint8Array(reader.result);
         pdfText = await extractTextFromPDF(typedArray);
-        pdfMode = true;
-        updateNotification("PDF Mode Activated");
+        document.getElementById("pdf-mode-btn").style.display = "block"; // Show PDF Mode button
+        alert("PDF uploaded successfully. Now you can enter PDF Mode.");
     };
     reader.readAsArrayBuffer(file);
 }
@@ -563,10 +570,8 @@ async function extractTextFromPDF(pdfData) {
     for (let i = 1; i <= pdf.numPages; i++) {
         const page = await pdf.getPage(i);
         const textContent = await page.getTextContent();
-        const textItems = textContent.items.map(item => item.str);
-        extractedText += textItems.join(" ") + " ";
+        extractedText += textContent.items.map(item => item.str).join(" ") + " ";
     }
-
     return extractedText;
 }
 
@@ -581,7 +586,22 @@ function searchPDFContent(query, pdfContent) {
     return "I couldn't find relevant information in the PDF.";
 }
 
+	    //entering from here
+	    let currentMode = "general"; // Modes: "general", "learn", "pdf"
 
+	    function togglePDFMode() {
+    if (currentMode === "pdf") {
+        currentMode = "general";
+        document.getElementById("pdf-mode-btn").textContent = "Enter PDF Mode";
+    } else if (pdfText) {
+        currentMode = "pdf";
+        document.getElementById("pdf-mode-btn").textContent = "Exit PDF Mode";
+    } else {
+        alert("Please upload a PDF first.");
+        return;
+    }
+    updateNotification();
+}
 	    
     </script>
 </body>
