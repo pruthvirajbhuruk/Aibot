@@ -305,6 +305,61 @@
     border: 1px solid #444;
     box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
 }
+
+	    /* sign speed controller */
+
+	    #sign-speed-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    background: #f4f4f4;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 300px;
+    text-align: center;
+}
+
+#sign-speed-label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#sign-speed {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    background: #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: 0.3s;
+}
+
+#sign-speed::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#sign-speed::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
   
 		
     </style>
@@ -337,8 +392,8 @@
 	    <div id="notification" class="notification-panel">General Mode</div>
 		<div class="messages" id="chat-box"></div>
         <div class="sign-box" id="sign-box">Sign Language Display</div>
-	    <div id="sign-speed-control">
-    <label for="sign-speed">Sign Speed:</label>
+	  <div id="sign-speed-container">
+    <label for="sign-speed" id="sign-speed-label">Sign Speed: <span id="speed-value">200ms</span></label>
     <input type="range" id="sign-speed" min="50" max="1000" value="200" step="50">
 </div>
 
@@ -538,10 +593,10 @@
             document.getElementById("user-info").innerHTML = `Logged in as <strong>${username}</strong>`;
             loadChatHistory();
         }
+	document.getElementById("sign-speed").addEventListener("input", function() {
+    document.getElementById("speed-value").textContent = `${this.value}ms`;
+		});    
 
-	    document.getElementById("sign-speed").addEventListener("input", function() {
-    document.getElementById("sign-speed-label").textContent = `Speed: ${this.value}ms`;
-});
     };
 
     function loadChatHistory() {
