@@ -398,12 +398,8 @@ function sendMessage() {
     let botResponse = "I'm not sure how to answer that. Can you rephrase?";
 
     // 1️⃣ **Check if PDF Mode is active**
-    if (currentMode === "pdf") {
-        botResponse = searchPDFContent(userInput) || botResponse;
-    } else if (currentMode === "learn") {
-        botResponse = getChapterResponse(userInput) || botResponse;
-    } else {
-        botResponse = getGeneralResponse(userInput) || botResponse;
+     if (pdfMode && pdfText) {
+        botResponse = searchPDFContent(userInput, pdfText) || botResponse;
     }
     // 2️⃣ **Check if a Chapter Mode is active**
     else if (currentChapter) {
