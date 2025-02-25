@@ -337,6 +337,11 @@
 	    <div id="notification" class="notification-panel">General Mode</div>
 		<div class="messages" id="chat-box"></div>
         <div class="sign-box" id="sign-box">Sign Language Display</div>
+	    <div id="sign-speed-control">
+    <label for="sign-speed">Sign Speed:</label>
+    <input type="range" id="sign-speed" min="50" max="1000" value="200" step="50">
+</div>
+
 		<div class="input-area">
             <input type="text" 	class="chat-input"	id="user-input" placeholder="Type your message...">
             <button onclick="sendMessage()">Send</button>
@@ -377,19 +382,21 @@
     }
 
     async function showSignLanguage(response) {
-        const signBox = document.getElementById("sign-box");
-        signBox.innerHTML = '';
-        for (const char of response) {
-            if (/^[a-zA-Z]$/.test(char)) {
-                const img = document.createElement('img');
-                img.src = `signs/${char.toUpperCase()}.png`;
-                img.alt = char;
-                signBox.innerHTML = '';
-                signBox.appendChild(img);
-                await new Promise(resolve => setTimeout(resolve, 200));
-            }
+    const signBox = document.getElementById("sign-box");
+    const speedControl = document.getElementById("sign-speed").value; // Get speed from slider
+    signBox.innerHTML = '';
+
+    for (const char of response) {
+        if (/^[a-zA-Z]$/.test(char)) {
+            const img = document.createElement('img');
+            img.src = `signs/${char.toUpperCase()}.png`;
+            img.alt = char;
+            signBox.innerHTML = '';
+            signBox.appendChild(img);
+            await new Promise(resolve => setTimeout(resolve, speedControl)); // Control speed
         }
     }
+}
 
 	function searchPDFContent(query, pdfText) {
     const sentences = pdfText.split('. '); // Split text into sentences
@@ -531,6 +538,10 @@
             document.getElementById("user-info").innerHTML = `Logged in as <strong>${username}</strong>`;
             loadChatHistory();
         }
+
+	    document.getElementById("sign-speed").addEventListener("input", function() {
+    document.getElementById("sign-speed-label").textContent = `Speed: ${this.value}ms`;
+});
     };
 
     function loadChatHistory() {
