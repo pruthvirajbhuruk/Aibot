@@ -391,6 +391,19 @@
         }
     }
 
+	function searchPDFContent(query, pdfText) {
+    const sentences = pdfText.split('. '); // Split text into sentences
+    query = query.toLowerCase();
+
+    for (const sentence of sentences) {
+        if (sentence.toLowerCase().includes(query)) {
+            return sentence + "."; // Return the first relevant sentence
+        }
+    }
+    return "I couldn't find relevant information in the PDF. Please ask differently.";
+}
+	
+
     function sendMessage() {
         let userInput = document.getElementById("user-input").value.trim().toLowerCase();
         if (!userInput) return;
@@ -400,7 +413,7 @@
 
         // **PDF Mode Processing**
         if (currentMode === "pdf" && pdfText) {
-            botResponse = searchPDFContent(userInput, pdfText) || botResponse;
+            botResponse = searchPDFContent(userInput, pdfText);
         }
         // **Chapter Mode Processing**
         else if (currentChapter) {
