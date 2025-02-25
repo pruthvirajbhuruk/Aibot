@@ -1,110 +1,110 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Accessible Chatbot</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-            margin: 0;
-        }
-        .auth-container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 300px;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        button:hover {
-            background: #0056b3;
-        }
-        .switch {
-            margin-top: 10px;
-            color: #007bff;
-            cursor: pointer;
-        }
-        .hidden {
-            display: none;
-        }
-    </style>
-</head>
-<body>
-    <div class="auth-container">
-        <div id="login-form">
-            <h2>Login</h2>
-            <input type="text" id="username" placeholder="Username">
-            <input type="password" id="password" placeholder="Password">
-            <button onclick="login()">Login</button>
-            <p class="switch" onclick="toggleAuth()">Don't have an account? Sign up</p>
-        </div>
-        <div id="signup-form" class="hidden">
-            <h2>Sign Up</h2>
-            <input type="text" id="new-username" placeholder="Username">
-            <input type="password" id="new-password" placeholder="Password">
-            <button onclick="signup()">Sign Up</button>
-            <p class="switch" onclick="toggleAuth()">Already have an account? Login</p>
-        </div>
-    </div>
-    <script>
-        function toggleAuth() {
-            document.getElementById("login-form").classList.toggle("hidden");
-            document.getElementById("signup-form").classList.toggle("hidden");
-        }
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #000;
+    margin: 0;
+}
 
-        function login() {
-            let username = document.getElementById("username").value;
-            let password = document.getElementById("password").value;
-            let storedUser = localStorage.getItem("username");
-            let storedPass = localStorage.getItem("password");
-            
-            if (username === storedUser && password === storedPass) {
-                alert("Login successful!");
-				localStorage.setItem("isLoggedIn", "true");
-				localStorage.setItem("loggedInUser", username);
-                window.location.href = "chat.html";
-            } else {
-                alert("Invalid credentials");
-            }
-        }
+/* Glassmorphic Card */
+.glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 15px;
+    padding: 30px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: fadeIn 1s ease-in-out;
+}
 
-        function signup() {
-            let newUsername = document.getElementById("new-username").value;
-            let newPassword = document.getElementById("new-password").value;
-            
-            if (newUsername && newPassword) {
-                localStorage.setItem("username", newUsername);
-                localStorage.setItem("password", newPassword);
-                alert("Sign up successful! You can now log in.");
-                toggleAuth();
-            } else {
-                alert("Please fill all fields");
-            }
-        }
-    </script>
-	
-</body>
-</html>
+/* Title */
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    margin-bottom: 20px;
+}
+
+/* Inputs */
+input {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    outline: none;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+input:focus {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+}
+
+/* Buttons */
+button {
+    width: 100%;
+    padding: 12px;
+    background: #ffd700;
+    color: black;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #ffea70;
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.8);
+}
+
+/* Switch Text */
+.switch {
+    margin-top: 15px;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.switch span {
+    color: #ffd700;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.switch:hover {
+    color: #ffd700;
+}
+
+/* Hide Signup Initially */
+.hidden {
+    display: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
