@@ -369,28 +369,6 @@ function startVoiceInput() {
     recognition.start();
 }
 
-function speakResponse(text) {
-    const synth = window.speechSynthesis;
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US';
-    synth.speak(utterance);
-}
-
-async function showSignLanguage(response) {
-    const signBox = document.getElementById("sign-box");
-    signBox.innerHTML = '';
-    for (const char of response) {
-        if (/^[a-zA-Z]$/.test(char)) {
-            const img = document.createElement('img');
-            img.src = `signs/${char.toUpperCase()}.png`;
-            img.alt = char;
-            signBox.innerHTML = '';
-            signBox.appendChild(img);
-            await new Promise(resolve => setTimeout(resolve, 200));
-        }
-    }
-}
-
 function sendMessage() {
     let userInput = document.getElementById("user-input").value.trim().toLowerCase();
     if (!userInput) return;
@@ -398,12 +376,9 @@ function sendMessage() {
 
     let botResponse = "I'm not sure how to answer that. Can you rephrase?";
 
-    // ✅ PDF Mode - Answer only PDF-related questions
     if (currentMode === "pdf" && pdfText) {
-        botResponse = searchPDFContent(userInput, pdfText) || botResponse;
-    }
-    // ✅ Learn Mode - Answer based on the selected chapter
-    else if (currentMode === "learn" && currentChapter) {
+        botResponse = searchPDFContent(userInput, pdfText) || "I couldn't find relevant information in the PDF.";
+    } else if (currentMode === "learn" && currentChapter) {
         const chapterResponses = {
             "Agriculture": [
                 { keywords: ["farming", "crops"], response: "Agriculture involves growing crops and raising livestock." },
@@ -427,9 +402,7 @@ function sendMessage() {
                 }
             }
         }
-    }
-    // ✅ General Mode - Use predefined general responses
-    else {
+    } else {
         const generalResponses = [
             { keywords: ["hello", "hi"], response: "Hello! How can I assist you today?" },
             { keywords: ["time"], response: `The current time is ${new Date().toLocaleTimeString()}` },
@@ -448,13 +421,7 @@ function sendMessage() {
         }
     }
 
-    // ✅ Display bot's response
     displayMessage("Bot", botResponse);
-    saveChatHistory("You", userInput);
-    saveChatHistory("Bot", botResponse);
-    speakResponse(botResponse);
-    showSignLanguage(botResponse);
-
     document.getElementById("user-input").value = "";
 }
 
@@ -482,15 +449,17 @@ function toggleChapter(chapter) {
 }
 
 function togglePDFMode() {
+    if (!pdfText) {
+        alert("Please upload a PDF first.");
+        return;
+    }
+    
     if (currentMode === "pdf") {
         currentMode = "general";
         document.getElementById("pdf-mode-btn").textContent = "Enter PDF Mode";
-    } else if (pdfText) {
+    } else {
         currentMode = "pdf";
         document.getElementById("pdf-mode-btn").textContent = "Exit PDF Mode";
-    } else {
-        alert("Please upload a PDF first.");
-        return;
     }
     updateNotification();
 }
@@ -537,8 +506,27 @@ function searchPDFContent(query, pdfContent) {
     return "I couldn't find relevant information in the PDF.";
 }
 
+function displayMessage(sender, text) {
+    let chatBox = document.getElementById("chat-box");
+    let messageElement = document.createElement("p");
+    messageElement.textContent = `${sender}: ${text}`;
+    chatBox.appendChild(messageElement);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
 window.onload = function () {
     updateNotification();
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+        document.body.classList.add(savedTheme + "-mode");
+    }
+
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    if (isLoggedIn !== "true") {
+        window.location.href = "index.html";
+    } else {
+        document.getElementById("user-info").innerHTML = `Logged in as <strong>${localStorage.getItem("loggedInUser")}</strong>`;
+    }
 };
 
 </script>
