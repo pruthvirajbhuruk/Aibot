@@ -343,193 +343,241 @@
             <button onclick="startVoiceInput()">voice</button>
         </div>
     </div>
+
 <script>
+    let currentChapter = "";
+    let pdfText = ""; // Stores extracted PDF text
+    let pdfMode = false; // Track if chatbot is in PDF mode
+    let currentMode = "general"; // Modes: "general", "learn", "pdf"
 
-let currentChapter = "";
-let currentMode = "general"; // Modes: "general", "learn", "pdf"
-let pdfText = ""; // Stores extracted PDF text
-
-function updateNotification() {
-    const notificationPanel = document.getElementById("notification");
-    if (currentMode === "pdf") {
-        notificationPanel.textContent = "PDF Mode Activated";
-    } else if (currentMode === "learn") {
-        notificationPanel.textContent = `Learn Mode: ${currentChapter}`;
-    } else {
-        notificationPanel.textContent = "General Mode";
+    function updateNotification() {
+        const notificationPanel = document.getElementById("notification");
+        if (currentMode === "pdf") {
+            notificationPanel.textContent = "PDF Mode Activated";
+        } else if (currentMode === "learn") {
+            notificationPanel.textContent = `Learn Mode: ${currentChapter}`;
+        } else {
+            notificationPanel.textContent = "General Mode";
+        }
     }
-}
 
-function startVoiceInput() {
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.onresult = event => {
-        document.getElementById("user-input").value = event.results[0][0].transcript;
-        sendMessage();
-    };
-    recognition.start();
-}
-
-function sendMessage() {
-    let userInput = document.getElementById("user-input").value.trim().toLowerCase();
-    if (!userInput) return;
-    displayMessage("You", userInput);
-
-    let botResponse = "I'm not sure how to answer that. Can you rephrase?";
-
-    if (currentMode === "pdf" && pdfText) {
-        botResponse = searchPDFContent(userInput, pdfText) || "I couldn't find relevant information in the PDF.";
-    } else if (currentMode === "learn" && currentChapter) {
-        const chapterResponses = {
-            "Agriculture": [
-                { keywords: ["farming", "crops"], response: "Agriculture involves growing crops and raising livestock." },
-                { keywords: ["soil", "fertilizer"], response: "Soil fertility is maintained using fertilizers and crop rotation." }
-            ],
-            "Space": [
-                { keywords: ["planets", "galaxy"], response: "There are eight planets in our solar system." },
-                { keywords: ["black hole", "universe"], response: "A black hole is a region of space where gravity is so strong that nothing can escape." }
-            ],
-            "Technology": [
-                { keywords: ["ai", "robot"], response: "AI is transforming industries by automating tasks and improving efficiency." },
-                { keywords: ["internet", "network"], response: "The internet connects people worldwide and enables instant communication." }
-            ]
+    function startVoiceInput() {
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.onresult = event => {
+            document.getElementById("user-input").value = event.results[0][0].transcript;
+            sendMessage();
         };
+        recognition.start();
+    }
 
-        if (chapterResponses[currentChapter]) {
-            for (const item of chapterResponses[currentChapter]) {
+    function speakResponse(text) {
+        const synth = window.speechSynthesis;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        synth.speak(utterance);
+    }
+
+    async function showSignLanguage(response) {
+        const signBox = document.getElementById("sign-box");
+        signBox.innerHTML = '';
+        for (const char of response) {
+            if (/^[a-zA-Z]$/.test(char)) {
+                const img = document.createElement('img');
+                img.src = `signs/${char.toUpperCase()}.png`;
+                img.alt = char;
+                signBox.innerHTML = '';
+                signBox.appendChild(img);
+                await new Promise(resolve => setTimeout(resolve, 200));
+            }
+        }
+    }
+
+    function sendMessage() {
+        let userInput = document.getElementById("user-input").value.trim().toLowerCase();
+        if (!userInput) return;
+        displayMessage("You", userInput);
+
+        let botResponse = "I'm not sure how to answer that. Can you rephrase?";
+
+        // **PDF Mode Processing**
+        if (currentMode === "pdf" && pdfText) {
+            botResponse = searchPDFContent(userInput, pdfText) || botResponse;
+        }
+        // **Chapter Mode Processing**
+        else if (currentChapter) {
+            const chapterResponses = {
+                "Agriculture": [
+                    { keywords: ["farming", "crops"], response: "Agriculture involves growing crops and raising livestock." },
+                    { keywords: ["soil", "fertilizer"], response: "Soil fertility is maintained using fertilizers and crop rotation." }
+                ],
+                "Space": [
+                    { keywords: ["planets", "galaxy"], response: "There are eight planets in our solar system." },
+                    { keywords: ["black hole", "universe"], response: "A black hole is a region of space where gravity is so strong that nothing can escape." }
+                ],
+                "Technology": [
+                    { keywords: ["ai", "robot"], response: "AI is transforming industries by automating tasks and improving efficiency." },
+                    { keywords: ["internet", "network"], response: "The internet connects people worldwide and enables instant communication." }
+                ]
+            };
+
+            if (chapterResponses[currentChapter]) {
+                for (const item of chapterResponses[currentChapter]) {
+                    if (item.keywords.some(keyword => userInput.includes(keyword))) {
+                        botResponse = item.response;
+                        break;
+                    }
+                }
+            }
+        }
+        // **General Mode Processing**
+        else {
+            const generalResponses = [
+                { keywords: ["hello", "hi"], response: "Hello! How can I assist you today?" },
+                { keywords: ["time"], response: `The current time is ${new Date().toLocaleTimeString()}` },
+                { keywords: ["how are you"], response: "I'm just a bot, but I'm here to help you!" },
+                { keywords: ["help"], response: "You can ask me about time, greetings, or how I'm doing." },
+                { keywords: ["weather"], response: "I'm unable to check live weather, but you can try asking about anything else." },
+                { keywords: ["name"], response: "I am your accessible chatbot assistant." },
+                { keywords: ["bye", "goodbye"], response: "Goodbye! Have a great day!" }
+            ];
+
+            for (const item of generalResponses) {
                 if (item.keywords.some(keyword => userInput.includes(keyword))) {
                     botResponse = item.response;
                     break;
                 }
             }
         }
-    } else {
-        const generalResponses = [
-            { keywords: ["hello", "hi"], response: "Hello! How can I assist you today?" },
-            { keywords: ["time"], response: `The current time is ${new Date().toLocaleTimeString()}` },
-            { keywords: ["how are you"], response: "I'm just a bot, but I'm here to help you!" },
-            { keywords: ["help"], response: "You can ask me about time, greetings, or how I'm doing." },
-            { keywords: ["weather"], response: "I'm unable to check live weather, but you can try asking about anything else." },
-            { keywords: ["name"], response: "I am your accessible chatbot assistant." },
-            { keywords: ["bye", "goodbye"], response: "Goodbye! Have a great day!" }
-        ];
 
-        for (const item of generalResponses) {
-            if (item.keywords.some(keyword => userInput.includes(keyword))) {
-                botResponse = item.response;
-                break;
+        // ✅ Display bot's response
+        displayMessage("Bot", botResponse);
+        saveChatHistory("You", userInput);
+        saveChatHistory("Bot", botResponse);
+        speakResponse(botResponse);
+        showSignLanguage(botResponse);
+
+        // ✅ Clear input field
+        document.getElementById("user-input").value = "";
+    }
+
+    function toggleChapter(chapter) {
+        const button = document.getElementById(chapter + "-btn");
+
+        if (currentChapter === chapter) {
+            currentChapter = "";
+            button.textContent = chapter;
+        } else {
+            if (currentChapter) {
+                document.getElementById(currentChapter + "-btn").textContent = currentChapter;
             }
+            currentChapter = chapter;
+            button.textContent = "Exit " + chapter + " Mode";
         }
+        updateNotification();
     }
 
-    displayMessage("Bot", botResponse);
-    document.getElementById("user-input").value = "";
-}
-
-function toggleChapter(chapter) {
-    if (currentMode === "pdf") {
-        alert("Exit PDF Mode before switching to Learn Mode.");
-        return;
+    function displayMessage(sender, text) {
+        let chatBox = document.getElementById("chat-box");
+        let messageElement = document.createElement("p");
+        messageElement.textContent = `${sender}: ${text}`;
+        chatBox.appendChild(messageElement);
+        chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    const button = document.getElementById(chapter + "-btn");
+    function startNewChat() {
+        const username = localStorage.getItem("loggedInUser");
+        localStorage.removeItem(`${username}_chatHistory`);
+        document.getElementById("chat-box").innerHTML = "";
+        document.getElementById("sign-box").innerHTML = "";
+    }
 
-    if (currentChapter === chapter) {
-        currentMode = "general";
-        currentChapter = "";
-        button.textContent = chapter;
-    } else {
-        if (currentChapter) {
-            document.getElementById(currentChapter + "-btn").textContent = currentChapter; 
+    function toggleTheme() {
+        document.body.classList.toggle("dark-mode");
+        document.body.classList.toggle("light-mode");
+
+        const currentTheme = document.body.classList.contains("dark-mode") ? "dark" : "light";
+        localStorage.setItem("theme", currentTheme);
+    }
+
+    window.onload = function () {
+        updateNotification();
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+            document.body.classList.remove("dark-mode", "light-mode");
+            document.body.classList.add(savedTheme + "-mode");
         }
-        currentMode = "learn";
-        currentChapter = chapter;
-        button.textContent = "Exit " + chapter + " Mode";
-    }
-    updateNotification();
-}
 
-function togglePDFMode() {
-    if (!pdfText) {
-        alert("Please upload a PDF first.");
-        return;
-    }
-    
-    if (currentMode === "pdf") {
-        currentMode = "general";
-        document.getElementById("pdf-mode-btn").textContent = "Enter PDF Mode";
-    } else {
-        currentMode = "pdf";
-        document.getElementById("pdf-mode-btn").textContent = "Exit PDF Mode";
-    }
-    updateNotification();
-}
+        const isLoggedIn = localStorage.getItem("isLoggedIn");
+        const username = localStorage.getItem("loggedInUser");
 
-async function uploadPDF() {
-    const fileInput = document.getElementById("pdf-upload");
-    const file = fileInput.files[0];
-
-    if (!file) {
-        alert("Please select a PDF file.");
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = async function () {
-        const typedArray = new Uint8Array(reader.result);
-        pdfText = await extractTextFromPDF(typedArray);
-        document.getElementById("pdf-mode-btn").style.display = "block";
-        alert("PDF uploaded successfully. Now you can enter PDF Mode.");
+        if (isLoggedIn !== "true") {
+            window.location.href = "index.html";
+        } else {
+            document.getElementById("user-info").innerHTML = `Logged in as <strong>${username}</strong>`;
+            loadChatHistory();
+        }
     };
-    reader.readAsArrayBuffer(file);
-}
 
-async function extractTextFromPDF(pdfData) {
-    const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
-    let extractedText = "";
+    function loadChatHistory() {
+        const username = localStorage.getItem("loggedInUser");
+        let chatHistory = JSON.parse(localStorage.getItem(`${username}_chatHistory`)) || [];
 
-    for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        const textContent = await page.getTextContent();
-        extractedText += textContent.items.map(item => item.str).join(" ") + " ";
-    }
-    return extractedText;
-}
-
-function searchPDFContent(query, pdfContent) {
-    query = query.toLowerCase();
-    const sentences = pdfContent.split(". ");
-    for (let sentence of sentences) {
-        if (sentence.toLowerCase().includes(query)) {
-            return sentence.trim() + ".";
-        }
-    }
-    return "I couldn't find relevant information in the PDF.";
-}
-
-function displayMessage(sender, text) {
-    let chatBox = document.getElementById("chat-box");
-    let messageElement = document.createElement("p");
-    messageElement.textContent = `${sender}: ${text}`;
-    chatBox.appendChild(messageElement);
-    chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-window.onload = function () {
-    updateNotification();
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-        document.body.classList.add(savedTheme + "-mode");
+        chatHistory.forEach(chat => {
+            displayMessage(chat.sender, chat.message);
+        });
     }
 
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
-    if (isLoggedIn !== "true") {
+    function saveChatHistory(sender, message) {
+        const username = localStorage.getItem("loggedInUser");
+        let chatHistory = JSON.parse(localStorage.getItem(`${username}_chatHistory`)) || [];
+        chatHistory.push({ sender, message });
+        localStorage.setItem(`${username}_chatHistory`, JSON.stringify(chatHistory));
+    }
+
+    function logout() {
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("loggedInUser");
         window.location.href = "index.html";
-    } else {
-        document.getElementById("user-info").innerHTML = `Logged in as <strong>${localStorage.getItem("loggedInUser")}</strong>`;
     }
-};
 
+    async function uploadPDF() {
+        const fileInput = document.getElementById("pdf-upload");
+        const file = fileInput.files[0];
+
+        if (!file) {
+            alert("Please select a PDF file.");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = async function () {
+            const typedArray = new Uint8Array(reader.result);
+            pdfText = await extractTextFromPDF(typedArray);
+            document.getElementById("pdf-mode-btn").style.display = "block";
+            alert("PDF uploaded successfully. Now you can enter PDF Mode.");
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    async function extractTextFromPDF(pdfData) {
+        const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
+        let extractedText = "";
+
+        for (let i = 1; i <= pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            const textContent = await page.getTextContent();
+            extractedText += textContent.items.map(item => item.str).join(" ") + " ";
+        }
+        return extractedText;
+    }
+
+    function togglePDFMode() {
+        currentMode = currentMode === "pdf" ? "general" : "pdf";
+        document.getElementById("pdf-mode-btn").textContent = currentMode === "pdf" ? "Exit PDF Mode" : "Enter PDF Mode";
+        updateNotification();
+    }
 </script>
 	
+
 </body>
 </html>
