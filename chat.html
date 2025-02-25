@@ -343,12 +343,11 @@
             <button onclick="startVoiceInput()">voice</button>
         </div>
     </div>
-
 <script>
     let currentChapter = "";
-    let pdfText = ""; // Stores extracted PDF text
-    let pdfMode = false; // Track if chatbot is in PDF mode
     let currentMode = "general"; // Modes: "general", "learn", "pdf"
+    let pdfText = ""; // Stores extracted PDF text
+    let pdfMode = false; // Tracks if chatbot is in PDF mode
 
     function updateNotification() {
         const notificationPanel = document.getElementById("notification");
@@ -366,10 +365,6 @@
         recognition.onresult = event => {
             document.getElementById("user-input").value = event.results[0][0].transcript;
             sendMessage();
-        };
-        recognition.onerror = (event) => {
-            console.error("Speech recognition error:", event.error);
-            alert("Voice recognition failed. Please try again.");
         };
         recognition.start();
     }
@@ -403,11 +398,11 @@
 
         let botResponse = "I'm not sure how to answer that. Can you rephrase?";
 
-        // **PDF Mode Processing**
+        // ✅ **PDF Mode - Answer based on uploaded PDF**
         if (currentMode === "pdf" && pdfText) {
-            botResponse = searchPDFContent(userInput, pdfText) || "I couldn't find relevant information in the PDF.";
+            botResponse = searchPDFContent(userInput, pdfText) || botResponse;
         }
-        // **Chapter Mode Processing**
+        // ✅ **Learn Mode - Answer based on selected chapter**
         else if (currentMode === "learn" && currentChapter) {
             const chapterResponses = {
                 "Agriculture": [
@@ -433,7 +428,7 @@
                 }
             }
         }
-        // **General Mode Processing**
+        // ✅ **General Mode - Answer general questions**
         else {
             const generalResponses = [
                 { keywords: ["hello", "hi"], response: "Hello! How can I assist you today?" },
@@ -463,12 +458,43 @@
     }
 
     function toggleChapter(chapter) {
+        if (currentMode === "pdf") {
+            alert("Exit PDF Mode first before switching to Learn Mode.");
+            return;
+        }
+
+        const button = document.getElementById(chapter + "-btn");
+
         if (currentChapter === chapter) {
             currentChapter = "";
             currentMode = "general";
+            button.textContent = chapter;
         } else {
+            if (currentChapter) {
+                document.getElementById(currentChapter + "-btn").textContent = currentChapter;
+            }
             currentChapter = chapter;
             currentMode = "learn";
+            button.textContent = "Exit " + chapter + " Mode";
+        }
+        updateNotification();
+    }
+
+    function togglePDFMode() {
+        if (currentMode === "learn") {
+            alert("Exit Learn Mode first before switching to PDF Mode.");
+            return;
+        }
+
+        if (currentMode === "pdf") {
+            currentMode = "general";
+            document.getElementById("pdf-mode-btn").textContent = "Enter PDF Mode";
+        } else if (pdfText) {
+            currentMode = "pdf";
+            document.getElementById("pdf-mode-btn").textContent = "Exit PDF Mode";
+        } else {
+            alert("Please upload a PDF first.");
+            return;
         }
         updateNotification();
     }
@@ -481,8 +507,15 @@
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
+    function logout() {
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("loggedInUser");
+        window.location.href = "index.html";
+    }
+
     function startNewChat() {
-        localStorage.removeItem("chatHistory");
+        const username = localStorage.getItem("loggedInUser");
+        localStorage.removeItem(`${username}_chatHistory`);
         document.getElementById("chat-box").innerHTML = "";
         document.getElementById("sign-box").innerHTML = "";
     }
@@ -490,46 +523,7 @@
     function toggleTheme() {
         document.body.classList.toggle("dark-mode");
         document.body.classList.toggle("light-mode");
-
-        const currentTheme = document.body.classList.contains("dark-mode") ? "dark" : "light";
-        localStorage.setItem("theme", currentTheme);
-    }
-
-    function logout() {
-        localStorage.removeItem("isLoggedIn");
-        localStorage.removeItem("loggedInUser");
-        window.location.href = "index.html";
-    }
-
-    async function uploadPDF() {
-        const fileInput = document.getElementById("pdf-upload");
-        const file = fileInput.files[0];
-
-        if (!file) {
-            alert("Please select a PDF file.");
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = async function () {
-            const typedArray = new Uint8Array(reader.result);
-            pdfText = await extractTextFromPDF(typedArray);
-            document.getElementById("pdf-mode-btn").style.display = "block";
-            alert("PDF uploaded successfully. Now you can enter PDF Mode.");
-        };
-        reader.readAsArrayBuffer(file);
-    }
-
-    async function extractTextFromPDF(pdfData) {
-        const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
-        let extractedText = "";
-
-        for (let i = 1; i <= pdf.numPages; i++) {
-            const page = await pdf.getPage(i);
-            const textContent = await page.getTextContent();
-            extractedText += textContent.items.map(item => item.str).join(" ") + " ";
-        }
-        return extractedText;
+        localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
     }
 
     function searchPDFContent(query, pdfContent) {
@@ -543,22 +537,14 @@
         return "I couldn't find relevant information in the PDF.";
     }
 
-    function togglePDFMode() {
-        if (currentMode === "pdf") {
-            currentMode = "general";
-            document.getElementById("pdf-mode-btn").textContent = "Enter PDF Mode";
-        } else if (pdfText) {
-            currentMode = "pdf";
-            document.getElementById("pdf-mode-btn").textContent = "Exit PDF Mode";
-        } else {
-            alert("Please upload a PDF first.");
-            return;
-        }
+    window.onload = function () {
         updateNotification();
-    }
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+            document.body.classList.add(savedTheme + "-mode");
+        }
+    };
 </script>
-
-
 	
 </body>
 </html>
