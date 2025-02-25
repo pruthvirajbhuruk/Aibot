@@ -473,20 +473,23 @@
     }
 
     function toggleChapter(chapter) {
-        const button = document.getElementById(chapter + "-btn");
+    const button = document.getElementById(chapter + "-btn");
 
-        if (currentChapter === chapter) {
-            currentChapter = "";
-            button.textContent = chapter;
-        } else {
-            if (currentChapter) {
-                document.getElementById(currentChapter + "-btn").textContent = currentChapter;
-            }
-            currentChapter = chapter;
-            button.textContent = "Exit " + chapter + " Mode";
+    if (currentChapter === chapter) {
+        currentChapter = "";
+        currentMode = "general"; // Reset mode when exiting chapter
+        button.textContent = chapter;
+    } else {
+        if (currentChapter) {
+            document.getElementById(currentChapter + "-btn").textContent = currentChapter;
         }
-        updateNotification();
+        currentChapter = chapter;
+        currentMode = "learn"; // Set mode to "learn" when entering a chapter
+        button.textContent = "Exit " + chapter + " Mode";
     }
+    updateNotification();
+}
+
 
     function displayMessage(sender, text) {
         let chatBox = document.getElementById("chat-box");
