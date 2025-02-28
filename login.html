@@ -49,6 +49,23 @@
             box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.2);
             animation: fadeIn 1s ease-in-out;
+            position: relative;
+        }
+
+        /* Notification */
+        #notification {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 215, 0, 0.9);
+            color: black;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+            font-weight: bold;
+            display: none;
+            width: max-content;
         }
 
         /* Title */
@@ -126,11 +143,19 @@
             from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
         }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+            10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            90% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+        }
     </style>
 </head>
 <body>
 
     <div class="auth-container">
+        <div id="notification"></div>
         <h2 class="title">AI For Disabled People</h2>
 
         <div id="login-form">
@@ -156,33 +181,45 @@
             document.getElementById("signup-form").classList.toggle("hidden");
         }
 
+        function showNotification(message, isSuccess) {
+            let notification = document.getElementById("notification");
+            notification.textContent = message;
+            notification.style.background = isSuccess ? "rgba(255, 215, 0, 0.9)" : "rgba(255, 0, 0, 0.9)";
+            notification.style.display = "block";
+            notification.style.animation = "fadeInOut 3s ease-in-out";
+
+            setTimeout(() => {
+                notification.style.display = "none";
+            }, 3000);
+        }
+
         function login() {
             let username = document.getElementById("username").value;
             let password = document.getElementById("password").value;
             let storedUser = localStorage.getItem("username");
             let storedPass = localStorage.getItem("password");
-            
+
             if (username === storedUser && password === storedPass) {
-                alert("Login successful!");
+                showNotification("Login successful!", true);
                 localStorage.setItem("isLoggedIn", "true");
                 localStorage.setItem("loggedInUser", username);
-                window.location.href = "chat.html";
+                setTimeout(() => window.location.href = "chat.html", 2000);
             } else {
-                alert("Invalid credentials");
+                showNotification("Invalid credentials", false);
             }
         }
 
         function signup() {
             let newUsername = document.getElementById("new-username").value;
             let newPassword = document.getElementById("new-password").value;
-            
+
             if (newUsername && newPassword) {
                 localStorage.setItem("username", newUsername);
                 localStorage.setItem("password", newPassword);
-                alert("Sign up successful! You can now log in.");
-                toggleAuth();
+                showNotification("Sign up successful! You can now log in.", true);
+                setTimeout(toggleAuth, 2000);
             } else {
-                alert("Please fill all fields");
+                showNotification("Please fill all fields", false);
             }
         }
     </script>
