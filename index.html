@@ -194,6 +194,118 @@
             font-size: 16px;
             margin-top: 50px;
         }
+		
+		/* User Manual Section */
+.manual-container {
+    text-align: center;
+    padding: 100px 5%;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.manual-title {
+    font-size: 36px;
+    font-weight: bold;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+}
+
+.manual-title span {
+    color: #FFD700;
+}
+
+.manual-slide {
+    width: 100%;
+    padding: 40px 10%;
+    background: rgba(255, 215, 0, 0.1);
+    margin: 20px 0;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    border-radius: 20px;
+    transform: scale(0.95);
+    transition: all 0.5s ease-in-out;
+    opacity: 0;
+    position: absolute;
+    left: 50%;
+    top: 180px;
+    transform: translateX(-50%) scale(0.5);
+    visibility: hidden;
+}
+
+.manual-slide.active {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+    visibility: visible;
+}
+
+.manual-slide h3 {
+    font-size: 30px;
+    color: #FFD700;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+}
+
+.manual-slide p {
+    font-size: 18px;
+    max-width: 700px;
+    margin: auto;
+    opacity: 0.9;
+}
+
+.manual-navigation {
+    margin-top: 250px;
+}
+
+.manual-navigation button {
+    padding: 12px 20px;
+    font-size: 18px;
+    background: #FFD700;
+    color: black;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    margin: 5px;
+    transition: 0.3s;
+}
+
+.manual-navigation button:hover {
+    background: #ffea70;
+    transform: scale(1.1);
+}
+
+.manual-navigation button {
+    padding: 12px 20px;
+    font-size: 18px;
+    background: #FFD700;
+    color: black;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    margin: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+.manual-navigation button:hover {
+    background: #ffea70;
+    transform: scale(1.2) rotate(2deg);
+    box-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
+}
+
+
+@keyframes floatingGlow {
+    0% { transform: translateY(0px); opacity: 0.8; }
+    50% { transform: translateY(-10px); opacity: 1; }
+    100% { transform: translateY(0px); opacity: 0.8; }
+}
+
+.floating-bg {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: #FFD700;
+    border-radius: 50%;
+    animation: floatingGlow 3s infinite ease-in-out;
+}
+		
+		
     </style>
 </head>
 
@@ -204,9 +316,10 @@
         <div class="logo">AI For Disabled People</div>
         <div class="nav-links">
             <a href="#about">About</a>
+			<a href="#user-manual">User Manual</a>
             <a href="#features">Features</a>
             <a href="#faq">FAQ</a>
-            <a href="#contact">Contact</a>
+            
         </div>
     </div>
 
@@ -224,13 +337,44 @@
         <h2>What is "AI For Disabled People"?</h2>
         <p>This AI chatbot is designed to assist individuals who are deaf, blind, or mute by serving as an educational instructor and a daily companion.</p>
     </div>
+	
+	<!-- User Manual Section -->
+<div id="user-manual" class="manual-container">
+	
+    <h2 class="manual-title">🚀 How to Use <span>AI for Disabled People</span></h2>
+
+    <div class="manual-slide" id="mode1">
+        <h3>1️⃣ General Mode</h3>
+        <p >In this mode, you can ask **any normal question**, just like ChatGPT.  
+        It's best for general knowledge, information retrieval, and daily assistance.</p>
+    </div>
+
+    <div class="manual-slide" id="mode2">
+        <h3>2️⃣ Chapter Mode</h3>
+        <p  >Chapter Mode is designed for **structured learning**.  
+        It contains **predefined topics** and gives **in-depth explanations** related to a subject.</p>
+    </div>
+
+    <div class="manual-slide" id="mode3">
+        <h3>3️⃣ PDF Mode</h3>
+        <p >With PDF Mode, you can **upload a document**, and the chatbot will extract and teach  
+        information **directly from the PDF**.</p>
+    </div>
+
+    <div class="manual-navigation">
+        <button onclick="scrollToMode(1)">General Mode</button>
+        <button onclick="scrollToMode(2)">Chapter Mode</button>
+        <button onclick="scrollToMode(3)">PDF Mode</button>
+    </div>
+</div>
+
 
     <!-- Features Section -->
     <div id="features" class="section">
         <h2>Features</h2>
         <div class="features">
             <div class="feature-box">🧏‍♂️ Sign Language for Deaf</div>
-            <div class="feature-box">👀 Voice-to-Text for Blind</div>
+            <div class="feature-box">👀 Voice Output for Blind</div>
             <div class="feature-box">📚 AI as a Personal Tutor</div>
         </div>
     </div>
@@ -248,6 +392,28 @@
     <div class="footer">
         &copy; 2025 AI For Disabled People. All Rights Reserved.
     </div>
+	<script>
+	let currentMode = 1;
 
+function scrollToMode(mode) {
+    document.querySelectorAll('.manual-slide').forEach((slide) => {
+        slide.classList.remove("active");
+        slide.style.transform = "translateX(-200%) scale(0.5)";
+    });
+
+    let activeSlide = document.getElementById(`mode${mode}`);
+    activeSlide.classList.add("active");
+    activeSlide.style.transform = "translateX(-50%) scale(1)";
+    currentMode = mode;
+}
+
+// Auto-Switch Between Modes
+setInterval(() => {
+    currentMode = (currentMode % 3) + 1;
+    scrollToMode(currentMode);
+}, 5000);
+
+
+</script>
 </body>
 </html>
