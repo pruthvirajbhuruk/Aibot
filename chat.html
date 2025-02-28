@@ -13,19 +13,21 @@
             height: 100vh;
             margin: 0;
             font-family: 'Poppins', sans-serif;
-            transition: background 0.4s ease;
+            transition: background 0.4s ea000
         }
 
         /* ?? DARK MODE (DEFAULT) */
         body.dark-mode {
-            background: linear-gradient(135deg, #0F172A, #1E293B);
-            color: #E5E7EB;
+            background: #000;
+            color: white;
+			overflow-x: hidden;
         }
 
         /* ?? LIGHT MODE */
         body.light-mode {
-            background: linear-gradient(135deg, #F9FAFB, #E5E7EB);
-            color: #1F2937;
+            background: #fff;
+            color: black;
+			overflow-x: hidden;
         }
 
         /* SIDEBAR */
@@ -41,13 +43,15 @@
         }
 
         .dark-mode .sidebar {
-            background: linear-gradient(135deg, #0F172A, #1E293B);
-            color: #FACC15;
+            background: #0e0d0d;
+            color: white;
+            overflow-x: hidden;
         }
 
         .light-mode .sidebar {
-            background: linear-gradient(135deg, #E5E7EB, #FFFFFF);
-            color: #1F2937;
+            background: #fff;
+            color: black;
+            overflow-x: hidden;
         }
 
         /* BUTTONS */
@@ -64,7 +68,7 @@
 
         .dark-mode .sidebar button {
             background: rgba(255, 223, 138, 0.1);
-            color: #FACC15;
+            color: #fff;
             border: 1px solid #FACC15;
         }
 
@@ -127,11 +131,11 @@
         }
 
         .dark-mode .chat-container {
-            background: rgba(30, 41, 59, 0.85);
+            background: #000;
         }
 
         .light-mode .chat-container {
-            background: rgba(255, 255, 255, 0.85);
+            background: #fff ;
         }
 
         /* SIGN LANGUAGE DISPLAY */
@@ -149,7 +153,7 @@
         }
 
         .dark-mode .sign-box {
-            border: 3px solid #3B82F6;
+            border: 3px solid #ffd700;
             background: rgba(255, 255, 255, 0.05);
             color: white;
         }
@@ -182,7 +186,7 @@
             flex: 1;
             padding: 16px;
             border-radius: 30px;
-            border: 1px solid #4B5563;
+            border: 1px solid 	;
             font-size: 15px;
             background: rgba(255, 255, 255, 0.05);
             color: white;
@@ -200,8 +204,16 @@
         }
 
         button:first-of-type {
-            background: linear-gradient(135deg, #10B981, #34D399);
-            color: white;
+                padding: 15px 40px;
+    font-size: 18px;
+    font-weight: bold;
+    background: #FFD700;
+    color: black;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    box-shadow: 0 0 15px rgb(255 215 0 / 60%);
+    transition: 0.3s;
         }
 
         button:first-of-type:hover {
@@ -211,8 +223,16 @@
 
         /* VOICE BUTTON */
         button:last-of-type {
-            background: linear-gradient(135deg, #3B82F6, #2563EB);
-            color: white;
+                padding: 15px 40px;
+    font-size: 18px;
+    font-weight: bold;
+    background: #FFD700;
+    color: black;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    box-shadow: 0 0 15px rgb(255 215 0 / 60%);
+    transition: 0.3s;
         }
 
         button:last-of-type:hover {
@@ -231,9 +251,9 @@
 
 		/* DARK MODE INPUT */
 		.dark-mode .chat-input {
-		background: #1E293B;
+		background: #000;
 		color: #E5E7EB;
-		border-color: #3B82F6;
+		border-color: #E5E7EB;
 		}
 
 		/* LIGHT MODE INPUT */
@@ -242,10 +262,10 @@
 		color: #1F2937;
 		border-color: #1F2937;
 		}		
-
+	/*#334155*/
 			.dark-mode .messages {
-    background: rgba(17, 24, 39, 0.8);
-    border: 1px solid #334155;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: #E5E7EB;
 }
 
@@ -322,11 +342,13 @@
     height: 4px;
     -webkit-appearance: none;
     appearance: none;
-    background: #ccc;
-    border-radius: 5px;
+    background: #fff;
+    border-radius: 30px;
     outline: none;
     transition: 0.3s;
 }
+
+
 
 #sign-speed::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -362,13 +384,16 @@
 
         	</div>   
 	    <!-- PDF Upload Section -->
+	<div class="chapter-list">	
+	<h3>Learn From PDF Mode</h3>
 <div class="input-area">
-    <label for="pdf-upload" style="cursor: pointer; background: #1E293B; padding: 10px; border-radius: 5px; color: white;">
+    <label for="pdf-upload" style="cursor: pointer; background: #ffd700; padding: 10px; border-radius: 5px; color: black;">
         Choose PDF
     </label>
     <input type="file" id="pdf-upload" accept="application/pdf" style="display: none;">
     <button onclick="uploadPDF()">Upload PDF</button>
      <button id="pdf-mode-btn" onclick="togglePDFMode()" style="display:none;">Enter PDF Mode</button>
+</div>
 </div>
 
     </div>
