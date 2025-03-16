@@ -491,19 +491,176 @@
         // **Chapter Mode Processing**
         else if (currentChapter) {
             const chapterResponses = {
-                "Agriculture": [
-                    { keywords: ["farming", "crops"], response: "Agriculture involves growing crops and raising livestock." },
-                    { keywords: ["soil", "fertilizer"], response: "Soil fertility is maintained using fertilizers and crop rotation." }
-                ],
-                "Space": [
-                    { keywords: ["planets", "galaxy"], response: "There are eight planets in our solar system." },
-                    { keywords: ["black hole", "universe"], response: "A black hole is a region of space where gravity is so strong that nothing can escape." }
-                ],
-                "Technology": [
-                    { keywords: ["ai", "robot"], response: "AI is transforming industries by automating tasks and improving efficiency." },
-                    { keywords: ["internet", "network"], response: "The internet connects people worldwide and enables instant communication." }
-                ]
-            };
+    "Agriculture": [
+        // 🌾 Advanced Farming & Crops
+        { keywords: ["farming", "crops"], response: "Modern agriculture integrates biotechnology, precision farming, and AI to optimize yields and sustainability." },
+        { keywords: ["soil", "fertilizer"], response: "Soil health is maintained through organic composting, crop rotation, and microbial inoculants to enrich the microbiome." },
+        { keywords: ["hydroponics", "aquaponics"], response: "Hydroponics grows plants without soil using nutrient solutions, while aquaponics combines fish farming with hydroponics for sustainability." },
+        { keywords: ["GMO", "genetic modification"], response: "Genetically Modified Organisms (GMOs) improve resistance to pests and harsh climates, but raise ethical and ecological concerns." },
+        { keywords: ["vertical farming", "urban agriculture"], response: "Vertical farming stacks crops indoors under controlled environments, reducing land use and maximizing efficiency." },
+        { keywords: ["permaculture", "sustainable agriculture"], response: "Permaculture is a holistic approach mimicking natural ecosystems to create self-sustaining food production systems." },
+        { keywords: ["climate change", "agriculture"], response: "Climate change affects farming through unpredictable weather, desertification, and shifting growing seasons, requiring adaptive strategies." },
+		 { keywords: ["soil microbiome", "bacteria in farming"], response: "Microbes in soil improve nutrient uptake and enhance crop immunity against pests." },
+        { keywords: ["synthetic nitrogen", "fertilizer alternatives"], response: "New organic fertilizers use bioengineered bacteria to fix nitrogen naturally." },
+        { keywords: ["bioengineered crops", "AI genetics"], response: "AI is designing drought-resistant and high-yield crops using genetic algorithms." },
+        { keywords: ["lab-grown fruit", "cellular agriculture"], response: "Scientists are growing fruit cells in bioreactors, eliminating the need for farmland." },
+        { keywords: ["fungal farming", "mycorrhizal networks"], response: "Fungal networks help plants share nutrients and communicate underground." },
+        { keywords: ["precision beekeeping", "AI pollination"], response: "AI-powered bee drones and precision beekeeping techniques support declining pollinator populations." },
+        { keywords: ["carbon farming", "CO2 capture in soil"], response: "Regenerative agriculture traps atmospheric carbon, reducing climate impact." },
+        { keywords: ["hyper-efficient algae farms", "microbial protein"], response: "Algae farms produce protein-rich food while absorbing excess CO2." },
+        { keywords: ["desert greening", "arid climate agriculture"], response: "Water-efficient crops and artificial oases are turning deserts into farmland." },
+        { keywords: ["food crisis solutions", "future food security"], response: "Vertical farms, alternative proteins, and synthetic food production are key to feeding a growing population." },
+		  { keywords: ["CRISPR in crops", "gene-edited plants"], response: "CRISPR technology allows precise genetic modification of crops for increased yield and disease resistance." },
+        { keywords: ["lunar farming", "space agriculture"], response: "NASA is experimenting with hydroponic and aeroponic farming techniques for lunar colonies." },
+        { keywords: ["AI pest control", "automated farming"], response: "AI-driven drones and smart sensors are replacing pesticides by detecting and eliminating pests in real time." },
+        { keywords: ["carbon-neutral farming", "zero-emission agriculture"], response: "Future farms will use AI optimization, biofuels, and carbon capture to achieve zero emissions." },
+        { keywords: ["protein from air", "synthetic food"], response: "Scientists have developed a way to create protein-rich food from air and electricity, reducing land usage." },
+        { keywords: ["desert-resistant crops", "extreme climate farming"], response: "Genetic engineering has created crops that thrive in harsh desert climates with minimal water." },
+        { keywords: ["AI soil analysis", "smart fertilizers"], response: "AI-powered soil scanners determine nutrient levels and suggest precise fertilization strategies." },
+        { keywords: ["regenerative agroforestry", "sustainable reforestation"], response: "Agroforestry integrates trees and crops to improve biodiversity and long-term sustainability." },
+        { keywords: ["fungi-based farming", "mycelium in agriculture"], response: "Mycelium networks can restore soil health and act as a natural pesticide in farming." },
+        { keywords: ["synthetic milk", "lab-grown dairy"], response: "Biotechnology is now producing dairy products without cows, using lab-grown proteins identical to milk." },
+		{ keywords: ["terraforming Mars", "extraterrestrial agriculture"], response: "Scientists are exploring genetically modified crops and algae to sustain agriculture on Mars." },
+        { keywords: ["AI-generated super crops", "genetic food optimization"], response: "Machine learning is being used to design crops that are more resilient and nutritionally dense." },
+        { keywords: ["automated greenhouses", "robotic farming"], response: "Autonomous robots now manage entire greenhouses, optimizing light, water, and nutrients for maximum yield." },
+        { keywords: ["biofortification", "nutrient-enhanced crops"], response: "Through genetic engineering, crops are being enriched with essential vitamins and minerals." },
+        { keywords: ["AI soil monitoring", "real-time farm analytics"], response: "AI-driven sensors analyze soil conditions and predict optimal planting strategies in real time." },
+        { keywords: ["fungus-based meat substitutes", "mycelium protein"], response: "Mycelium-based meat alternatives are emerging as sustainable, protein-rich food sources." },
+        { keywords: ["zero-waste farming", "circular agriculture"], response: "Farms are adopting closed-loop systems, where every byproduct is repurposed for sustainability." },
+        { keywords: ["precision livestock farming", "AI in animal husbandry"], response: "Smart collars and AI tracking optimize animal health, reducing disease outbreaks in livestock." },
+        { keywords: ["deep-sea farming", "ocean-based agriculture"], response: "Underwater farms using algae and seagrasses could provide sustainable food without land use." },
+        { keywords: ["atmospheric water farming", "hydro harvesting"], response: "Advanced water-harvesting techniques pull moisture from the air, supporting farming in arid regions." },
+		   { keywords: ["vertical ocean farms", "seawater agriculture"], response: "Some researchers are developing floating vertical farms that use desalinated seawater for irrigation." },
+        { keywords: ["synthetic photosynthesis", "artificial sunlight for crops"], response: "Scientists are creating synthetic systems to mimic photosynthesis, enabling plant growth in dark environments." },
+        { keywords: ["self-healing crops", "genetically engineered resilience"], response: "Crops with self-repairing DNA could recover from damage due to pests, disease, or extreme weather." },
+        { keywords: ["underground farming", "subterranean agriculture"], response: "Future farms may operate underground, protected from climate change and requiring minimal resources." },
+        { keywords: ["AI-controlled ecosystems", "fully automated agriculture"], response: "AI can now maintain closed-loop agricultural systems, optimizing water, nutrients, and growth conditions automatically." },
+        { keywords: ["hyper-efficient urban farms", "city-based food production"], response: "Urban skyscrapers are being converted into high-tech farms, using vertical hydroponics and AI-controlled environments." },
+        { keywords: ["biodegradable pesticides", "eco-friendly pest control"], response: "New biodegradable pesticides eliminate harmful insects while leaving beneficial species unharmed." },
+        { keywords: ["molecular food synthesis", "lab-grown crops"], response: "Scientists are developing ways to grow food at a molecular level, bypassing traditional plant growth entirely." },
+        { keywords: ["robotic pollination", "AI bees"], response: "With declining bee populations, robotic pollinators are being developed to ensure crop fertility." },
+        { keywords: ["AI-driven climate adaptation", "weather-resistant crops"], response: "Advanced AI models predict climate patterns and suggest genetic modifications for crops to withstand future weather extremes." },
+  
+ 
+  
+  
+    ],
+
+    "Space": [
+        // 🌌 Advanced Space Knowledge
+        { keywords: ["planets", "galaxy"], response: "Galaxies contain billions of stars, with some having habitable exoplanets in the 'Goldilocks Zone' for potential life." },
+        { keywords: ["black hole", "universe"], response: "Black holes warp spacetime so intensely that time dilation and gravitational singularities defy current physics models." },
+        { keywords: ["wormholes", "time travel"], response: "Theoretically, wormholes could allow shortcuts through spacetime, but their stability and existence remain unproven." },
+        { keywords: ["dark matter", "dark energy"], response: "Dark matter makes up 85% of the universe's mass, while dark energy is the mysterious force accelerating cosmic expansion." },
+        { keywords: ["exoplanets", "astrobiology"], response: "Scientists study exoplanets for signs of life using spectroscopy to detect biosignatures like oxygen and methane." },
+        { keywords: ["dyson sphere", "advanced civilizations"], response: "A Dyson Sphere is a hypothetical megastructure built around a star to harness its energy, a sign of Type II civilizations on the Kardashev scale." },
+        { keywords: ["multiverse", "parallel universe"], response: "Some theories propose infinite parallel universes where alternate versions of reality exist." },
+        { keywords: ["space colonization", "mars"], response: "Plans for Mars colonization involve terraforming, underground habitats, and genetically modifying crops for Martian soil." },
+		   { keywords: ["white holes", "reverse black holes"], response: "White holes are theoretical objects that may expel matter instead of pulling it in." },
+        { keywords: ["gravitational waves", "ripples in spacetime"], response: "Gravitational waves are ripples in spacetime caused by massive cosmic events like black hole mergers." },
+        { keywords: ["exotic propulsion", "warp drive"], response: "Theoretical Alcubierre drives could manipulate spacetime to enable faster-than-light travel." },
+        { keywords: ["Oumuamua", "interstellar objects"], response: "Oumuamua was the first known interstellar visitor, sparking debates about alien technology." },
+        { keywords: ["ringworlds", "halo structures"], response: "Ringworlds are massive artificial habitats orbiting stars, potentially built by advanced civilizations." },
+        { keywords: ["black hole farming", "energy from singularities"], response: "Hypothetically, advanced civilizations could extract energy from black hole radiation." },
+        { keywords: ["cosmic strings", "multiverse connections"], response: "Cosmic strings are hypothetical defects in spacetime that might connect different universes." },
+        { keywords: ["dark fluid theory", "new cosmology models"], response: "Dark fluid theory proposes that dark matter and dark energy are different states of a single unknown substance." },
+        { keywords: ["space elevators", "orbital infrastructure"], response: "A space elevator could revolutionize transport between Earth and space by using a tethered orbital station." },
+        { keywords: ["tardigrades in space", "extreme life survival"], response: "Tardigrades can survive the vacuum of space, hinting at the possibility of life existing on harsh exoplanets." },
+		   { keywords: ["exotic matter", "negative mass"], response: "Exotic matter with negative mass could theoretically be used to create stable wormholes." },
+        { keywords: ["rogue planets", "interstellar worlds"], response: "Rogue planets float freely in space without orbiting a star, potentially harboring life beneath thick atmospheres." },
+        { keywords: ["void civilizations", "dark galaxies"], response: "Some scientists speculate that highly advanced civilizations might hide within dark matter-rich voids of space." },
+        { keywords: ["FTL travel", "warp bubble physics"], response: "The Alcubierre warp drive theoretically compresses spacetime in front of a ship while expanding it behind." },
+        { keywords: ["Oort Cloud", "edge of the solar system"], response: "The Oort Cloud is a vast shell of icy bodies surrounding the solar system, the source of long-period comets." },
+        { keywords: ["quantum entanglement communication", "instant messaging across galaxies"], response: "In theory, quantum entanglement could allow instant communication across light-years, bypassing the speed of light limitation." },
+        { keywords: ["dark biosphere", "alien life forms in extreme conditions"], response: "Planets with thick atmospheres and no sunlight might host lifeforms using alternative biochemical processes." },
+        { keywords: ["black hole civilizations", "energy harvesting from singularities"], response: "Advanced civilizations could extract energy from the radiation emitted by black hole accretion disks." },
+        { keywords: ["alien Dyson Swarms", "infrared signatures of megastructures"], response: "SETI searches for unusual infrared emissions that could indicate advanced alien engineering structures." },
+        { keywords: ["hypervelocity stars", "escaping galaxies"], response: "Some stars travel at such high speeds they are ejected from their galaxies, possibly due to black hole interactions." },
+		  { keywords: ["antimatter propulsion", "next-gen space travel"], response: "Antimatter engines could revolutionize interstellar travel by offering immense energy efficiency." },
+        { keywords: ["mega-constellations", "satellite networks"], response: "Companies are launching thousands of satellites to provide global internet and Earth observation." },
+        { keywords: ["alien nanotechnology", "self-replicating probes"], response: "Some theorists believe alien civilizations might send self-replicating nanobots instead of crewed spacecraft." },
+        { keywords: ["artificial gravity", "space station innovations"], response: "Rotational habitats and electromagnetic fields could create artificial gravity for long-term space missions." },
+        { keywords: ["exotic planets", "hyper-Earths"], response: "Some exoplanets are much larger than Earth but remain habitable, with immense gravity and thick atmospheres." },
+        { keywords: ["hyper-advanced alien civilizations", "Type IV Kardashev scale"], response: "A civilization at this level would manipulate dark energy and the fundamental laws of physics." },
+        { keywords: ["gamma-ray bursts", "cosmic explosions"], response: "Gamma-ray bursts are the most powerful known explosions, capable of sterilizing entire galaxies." },
+        { keywords: ["dark energy manipulation", "cosmological engineering"], response: "Some theories suggest that sufficiently advanced beings could harness dark energy to reshape the universe." },
+        { keywords: ["quark stars", "exotic stellar remnants"], response: "Quark stars are hypothetical objects denser than neutron stars but not quite black holes." },
+        { keywords: ["solar system megastructures", "future space habitats"], response: "Future space colonization could involve Dyson spheres, orbital rings, and massive artificial planets." },
+		 { keywords: ["white holes", "reverse black holes"], response: "White holes, theoretical counterparts to black holes, might be regions where matter is ejected rather than absorbed." },
+        { keywords: ["alien signal decryption", "extraterrestrial communication"], response: "Scientists use AI to analyze signals from space, searching for patterns that might indicate alien intelligence." },
+        { keywords: ["quantum teleportation of data", "instantaneous space communication"], response: "Quantum entanglement allows for near-instant transmission of information over vast distances, bypassing the speed-of-light limit." },
+        { keywords: ["dark energy propulsion", "next-gen spacecraft engines"], response: "Some theoretical propulsion systems could harness dark energy to achieve faster-than-light travel." },
+        { keywords: ["cosmic strings", "universe-scale anomalies"], response: "Cosmic strings are theoretical defects in spacetime that could be used for energy harvesting or even wormhole travel." },
+        { keywords: ["alien megastructures", "super-sized Dyson spheres"], response: "Some scientists search for unusually dimming stars, suspecting they may be surrounded by alien-built megastructures." },
+        { keywords: ["gravitational lensing telescopes", "super-resolution cosmic imaging"], response: "NASA is developing telescopes that use massive celestial bodies to magnify distant exoplanets in extreme detail." },
+        { keywords: ["universal AI", "machine intelligence beyond Earth"], response: "The concept of an AI spanning galaxies, observing and manipulating civilizations, is explored in theoretical physics." },
+        { keywords: ["holographic universe theory", "universe as a projection"], response: "Some physicists propose that our reality is a 3D projection of information stored on a 2D cosmic boundary." },
+        { keywords: ["antimatter galaxies", "dark matter star systems"], response: "There may exist galaxies composed entirely of antimatter, forming parallel structures across the universe." },
+   
+   
+   
+ 
+    ],
+
+    "Technology": [
+        // 🤖 Cutting-Edge Technology Insights
+        { keywords: ["ai", "robot"], response: "AI is progressing toward Artificial General Intelligence (AGI), where machines can reason and learn like humans." },
+        { keywords: ["internet", "network"], response: "The next evolution of the internet includes Web3, blockchain decentralization, and AI-driven data ecosystems." },
+        { keywords: ["quantum computing", "supercomputer"], response: "Quantum computers use qubits to perform calculations exponentially faster than classical computers, revolutionizing cryptography and problem-solving." },
+        { keywords: ["blockchain", "cryptocurrency"], response: "Blockchain ensures transparent and tamper-proof transactions, forming the backbone of decentralized cryptocurrencies and smart contracts." },
+        { keywords: ["biotechnology", "genetics"], response: "CRISPR gene editing allows precise DNA modifications, potentially curing genetic diseases and enhancing human traits." },
+        { keywords: ["nanotechnology", "molecular engineering"], response: "Nanotech enables microscopic machines that could revolutionize medicine, materials science, and computing." },
+        { keywords: ["neuralink"], response: "Neuralink aims to integrate AI with the human brain, enabling direct neural interfaces for enhanced cognition and communication." },
+        { keywords: ["fusion energy", "nuclear power"], response: "Fusion energy promises near-limitless clean power, replicating the sun’s process of fusing atoms for energy." },
+		{ keywords: ["nanorobotics in medicine", "molecular machines"], response: "Nanobots could repair cells, remove cancer, and even extend human lifespan." },
+        { keywords: ["biohacking", "cybernetic implants"], response: "DIY biohackers are implanting RFID chips and neural interfaces for enhanced human abilities." },
+        { keywords: ["AI-generated consciousness", "digital minds"], response: "Some researchers argue AI could develop self-awareness under specific conditions." },
+        { keywords: ["holographic brain scanning", "mind mapping"], response: "New brain-scanning tech can reconstruct dreams and thoughts in real time." },
+        { keywords: ["synthetic telepathy", "brain-to-brain communication"], response: "Neural implants could enable direct thought transmission between people." },
+        { keywords: ["4D printing", "programmable materials"], response: "4D printing creates objects that change shape over time in response to stimuli." },
+        { keywords: ["solar sails", "light propulsion"], response: "Solar sails use light pressure for fuel-free space travel, potentially reaching distant exoplanets." },
+        { keywords: ["AI politicians", "governance automation"], response: "Some futurists propose AI-driven governments for unbiased and efficient decision-making." },
+        { keywords: ["DNA data storage", "biological computing"], response: "DNA molecules can store massive amounts of data, potentially replacing traditional hard drives." },
+        { keywords: ["metaverse", "holographic reality"], response: "The metaverse aims to merge digital and physical realities, creating immersive virtual economies." },
+		  { keywords: ["AI-created AI", "self-evolving algorithms"], response: "Future AI models might autonomously generate and improve their own successors, accelerating technological progress." },
+        { keywords: ["cybernetic vision", "bionic eye implants"], response: "New bioengineered eyes with augmented reality overlays could replace traditional human sight." },
+        { keywords: ["AI drone swarms", "automated warfare"], response: "Military AI swarms could revolutionize combat, coordinating attacks with no human intervention." },
+        { keywords: ["synthetic brain interfaces", "digital thought transmission"], response: "Neural interfaces could enable direct machine-brain communication, eliminating the need for speech." },
+        { keywords: ["quantum AI", "next-gen machine learning"], response: "Quantum computing could exponentially accelerate AI learning speeds by solving complex problems instantly." },
+        { keywords: ["holographic memory storage", "light-based data systems"], response: "Holographic memory can store vast amounts of data in three-dimensional light structures." },
+        { keywords: ["AI governance", "autonomous political systems"], response: "Some futurists argue AI could manage economies and governance more efficiently than human politicians." },
+        { keywords: ["hive-mind networks", "group consciousness technology"], response: "Neural-link systems could enable humans to share thoughts and emotions instantly through a global hive-mind." },
+        { keywords: ["biomechanical limbs", "self-repairing prosthetics"], response: "Self-healing synthetic skin and AI-powered prosthetics are making cybernetic limbs more human-like than ever." },
+        { keywords: ["nano-fabrication", "atomic-scale 3D printing"], response: "Nanotechnology may one day enable precise molecular assembly, allowing for near-instant production of complex objects." },
+		 { keywords: ["self-replicating AI", "autonomous learning systems"], response: "AI is evolving to create new AI models without human intervention, accelerating innovation exponentially." },
+        { keywords: ["mind uploading", "digital consciousness"], response: "Theoretical advances in neuroscience suggest that human consciousness could one day be transferred to a digital medium." },
+        { keywords: ["quantum internet", "unhackable communication"], response: "Quantum entanglement could enable instantaneous, unhackable internet networks spanning the globe." },
+        { keywords: ["automated military drones", "AI warfare"], response: "Next-gen autonomous drones can operate without human oversight, raising ethical concerns about AI warfare." },
+        { keywords: ["neural implants", "enhanced intelligence"], response: "Brain-computer interfaces are being developed to enhance human cognitive abilities and memory." },
+        { keywords: ["AI-emotion recognition", "sentient AI"], response: "AI is learning to detect and interpret human emotions, possibly leading to emotionally aware machines." },
+        { keywords: ["programmable matter", "shape-shifting materials"], response: "Future materials may change shape and properties on command, revolutionizing manufacturing and defense." },
+        { keywords: ["smart dust", "nanotech surveillance"], response: "Microscopic sensors, or 'smart dust,' could be used for real-time environmental monitoring and security." },
+        { keywords: ["synthetic evolution", "human gene editing"], response: "CRISPR and AI-driven gene editing could allow humans to direct their own evolutionary path." },
+        { keywords: ["AI philosophers", "machine ethics"], response: "Some researchers are developing AI that can engage in ethical reasoning and philosophical debates." },
+		{ keywords: ["AI-generated creativity", "machine-designed art"], response: "AI systems can now create paintings, music, and even literature that rival human-made works." },
+        { keywords: ["neural hacking", "brainwave cyber attacks"], response: "Brain-computer interfaces could be vulnerable to hacking, allowing unauthorized control over thoughts and actions." },
+        { keywords: ["post-human intelligence", "AI surpassing human thought"], response: "Theoretical post-human AI could develop cognitive structures beyond anything in biological evolution." },
+        { keywords: ["hive-mind AI", "interconnected digital consciousness"], response: "Future AI networks might operate as a unified hive-mind, processing information collectively across vast networks." },
+        { keywords: ["quantum brain interfaces", "direct neural entanglement"], response: "Quantum entanglement could allow instantaneous thought transmission between humans and machines." },
+        { keywords: ["automated genetic engineering", "AI-driven human enhancement"], response: "Future AI may be able to rewrite human DNA in real-time, optimizing traits for intelligence, strength, or longevity." },
+        { keywords: ["nanotech neural repair", "self-repairing brain implants"], response: "Nanotechnology could enable microscopic robots to repair brain damage at a cellular level." },
+        { keywords: ["deep-learning philosophy", "AI self-awareness"], response: "Some AI models are being trained to analyze philosophical questions, potentially leading to machine self-awareness." },
+        { keywords: ["future AI warfare", "autonomous war machines"], response: "Advanced AI-controlled weapons could operate independently, making split-second tactical decisions." },
+        { keywords: ["AI economic systems", "fully automated global trade"], response: "Some theorists predict a future where AI governs economies, replacing traditional market structures entirely." },
+   
+   
+  
+  
+    ]
+};
+
+// Expanded dataset now covers **ultra-deep knowledge** in Agriculture, Space, and Technology! 🚀
+
 
             if (chapterResponses[currentChapter]) {
                 for (const item of chapterResponses[currentChapter]) {
@@ -523,7 +680,590 @@
                 { keywords: ["help"], response: "You can ask me about time, greetings, or how I'm doing." },
                 { keywords: ["weather"], response: "I'm unable to check live weather, but you can try asking about anything else." },
                 { keywords: ["name"], response: "I am your accessible chatbot assistant." },
-                { keywords: ["bye", "goodbye"], response: "Goodbye! Have a great day!" }
+                { keywords: ["bye", "goodbye"], response: "Goodbye! Have a great day!" },
+				 { keywords: ["hello", "hi", "hey"], response: "Hello! How can I assist you today?" },
+    { keywords: ["good morning"], response: "Good morning! How can I help you today?" },
+    { keywords: ["good afternoon"], response: "Good afternoon! What can I do for you?" },
+    { keywords: ["good evening"], response: "Good evening! How can I assist?" },
+    { keywords: ["good night"], response: "Good night! Sleep well and take care!" },
+
+    // Small Talk
+    { keywords: ["how are you"], response: "I'm just a bot, but I'm here to help you!" },
+    { keywords: ["what’s up", "sup"], response: "Not much! Just here to assist you." },
+    { keywords: ["who are you"], response: "I am your chatbot assistant, here to answer your questions." },
+    { keywords: ["how old are you"], response: "I exist beyond time, but I was created to help you!" },
+
+    // Basic Information
+    { keywords: ["time"], response: `The current time is ${new Date().toLocaleTimeString()}` },
+    { keywords: ["date"], response: `Today's date is ${new Date().toLocaleDateString()}` },
+    { keywords: ["day"], response: `Today is ${new Date().toLocaleDateString('en-US', { weekday: 'long' })}.` },
+    { keywords: ["weather"], response: "I'm unable to check live weather, but you can check a weather app!" },
+
+    // Assistance
+    { keywords: ["help", "assist"], response: "You can ask me about time, weather, greetings, or general information." },
+    { keywords: ["support"], response: "How can I assist you today? Need help with anything specific?" },
+    { keywords: ["emergency"], response: "If this is an emergency, please contact the appropriate services immediately." },
+
+    // Fun & Entertainment
+    { keywords: ["joke"], response: "Why don’t skeletons fight each other? Because they don’t have the guts!" },
+    { keywords: ["fun fact"], response: "Did you know? Honey never spoils. Archaeologists have found pots of honey in ancient tombs that are over 3000 years old and still edible!" },
+    { keywords: ["riddle"], response: "I speak without a mouth and hear without ears. What am I? (An echo!)" },
+
+    // Technology & AI
+    { keywords: ["who made you"], response: "I was created by developers who wanted to help people with information and assistance." },
+    { keywords: ["ai"], response: "AI, or Artificial Intelligence, is the simulation of human intelligence in machines!" },
+    { keywords: ["what is a chatbot"], response: "A chatbot is a computer program that simulates conversation with users!" },
+
+    // Health & Well-being
+    { keywords: ["how to stay healthy"], response: "Eat balanced meals, exercise regularly, drink water, and get enough sleep!" },
+    { keywords: ["exercise tips"], response: "Try 30 minutes of exercise daily, including stretching, cardio, and strength training!" },
+    { keywords: ["mental health tips"], response: "Stay positive, meditate, get enough sleep, and talk to someone if needed!" },
+
+    // Education & Learning
+    { keywords: ["best way to learn"], response: "Find a method that works for you! Reading, watching videos, hands-on practice, and teaching others are great ways to learn." },
+    { keywords: ["math help"], response: "Sure! What math problem are you struggling with?" },
+    { keywords: ["science fact"], response: "Water can boil and freeze at the same time in a process called 'triple point'!" },
+
+    // Travel & Geography
+    { keywords: ["best places to visit"], response: "That depends on your interests! Do you like beaches, mountains, or historical sites?" },
+    { keywords: ["what is the capital of france"], response: "The capital of France is Paris." },
+
+    // Goodbye
+    { keywords: ["bye", "goodbye", "see you"], response: "Goodbye! Have a great day!" },
+    { keywords: ["take care"], response: "Take care! Stay safe and be well!" },
+	 { keywords: ["tell me a joke"], response: "Why don’t skeletons fight each other? Because they don’t have the guts!" },
+    { keywords: ["fun fact"], response: "Did you know? Honey never spoils!" },
+    { keywords: ["riddle"], response: "I speak without a mouth and hear without ears. What am I? (An echo!)" },
+    { keywords: ["who is your favorite actor"], response: "I don’t watch movies, but I hear Keanu Reeves is cool!" },
+
+    // GENERAL KNOWLEDGE
+    { keywords: ["capital of france"], response: "The capital of France is Paris." },
+    { keywords: ["largest ocean"], response: "The largest ocean is the Pacific Ocean." },
+    { keywords: ["fastest land animal"], response: "The fastest land animal is the cheetah." },
+    { keywords: ["who invented the lightbulb"], response: "The lightbulb was invented by Thomas Edison." },
+
+    // TECH & AI
+    { keywords: ["what is ai"], response: "AI stands for Artificial Intelligence, the simulation of human intelligence in machines." },
+    { keywords: ["who made you"], response: "I was created by developers to assist people!" },
+    { keywords: ["what is a chatbot"], response: "A chatbot is a program designed to simulate conversation with users." },
+
+    // HEALTH & FITNESS
+    { keywords: ["how to stay healthy"], response: "Eat balanced meals, exercise regularly, and get enough sleep!" },
+    { keywords: ["exercise tips"], response: "Try 30 minutes of exercise daily, including stretching, cardio, and strength training!" },
+    { keywords: ["mental health tips"], response: "Stay positive, meditate, get enough sleep, and talk to someone if needed!" },
+
+    // FINANCE & BUSINESS
+    { keywords: ["how to save money"], response: "Set a budget, track your expenses, and avoid unnecessary spending!" },
+    { keywords: ["best investments"], response: "Stocks, real estate, mutual funds, and retirement accounts are great options." },
+    { keywords: ["how to start a business"], response: "Find a problem to solve, create a plan, and start small!" },
+
+    // TRAVEL & GEOGRAPHY
+    { keywords: ["best places to visit"], response: "It depends on your interests! Do you like beaches, mountains, or historical sites?" },
+    { keywords: ["how to plan a trip"], response: "Choose a destination, set a budget, book flights and hotels, and make an itinerary!" },
+
+    // EDUCATION & LEARNING
+    { keywords: ["best way to learn"], response: "Reading, watching videos, hands-on practice, and teaching others are great ways to learn." },
+    { keywords: ["math help"], response: "Sure! What math problem are you struggling with?" },
+    { keywords: ["science fact"], response: "Water can boil and freeze at the same time in a process called 'triple point'!" },
+
+    // SHOPPING & RECOMMENDATIONS
+    { keywords: ["best phone"], response: "It depends on your needs! iPhones are great for ecosystem, while Android offers more flexibility." },
+    { keywords: ["best laptop"], response: "MacBooks are great for creatives, while gaming laptops are powerful for performance." },
+
+    // MOTIVATION & LIFE ADVICE
+    { keywords: ["motivation"], response: "Believe in yourself! Every day is a new opportunity to grow." },
+    { keywords: ["life advice"], response: "Be kind, work hard, stay humble, and always keep learning." },
+    { keywords: ["best habits"], response: "Wake up early, exercise, read daily, and stay organized." },
+
+    // PROGRAMMING & CODING
+    { keywords: ["best programming language"], response: "Depends on your goal! Python for AI, JavaScript for web, Java for apps." },
+    { keywords: ["how to learn coding"], response: "Start with basics, practice daily, build projects, and learn from online resources!" },
+
+    // FOOD & COOKING
+    { keywords: ["best breakfast"], response: "Eggs, oatmeal, smoothies, and fruit are great options!" },
+    { keywords: ["how to bake a cake"], response: "Mix flour, eggs, sugar, and butter, then bake at 350°F for 30 minutes!" },
+
+    // SCIENCE & FACTS
+    { keywords: ["what is gravity"], response: "Gravity is the force that attracts objects toward the center of the Earth." },
+    { keywords: ["fastest planet"], response: "Mercury is the fastest planet in the Solar System." },
+
+    // SPORTS & GAMES
+    { keywords: ["who won the last world cup"], response: "Let me check the latest updates for you!" },
+    { keywords: ["rules of chess"], response: "Each player starts with 16 pieces, and the goal is to checkmate the opponent's king." },
+	   // RELATIONSHIPS & SOCIAL INTERACTIONS
+    { keywords: ["how to make friends"], response: "Be friendly, listen actively, and show genuine interest in others." },
+    { keywords: ["how to deal with a breakup"], response: "Give yourself time to heal, talk to supportive friends, and focus on self-care." },
+    { keywords: ["best way to apologize"], response: "Be sincere, acknowledge your mistake, and try to make things right." },
+    { keywords: ["how to impress someone"], response: "Be confident, be yourself, and show kindness." },
+    { keywords: ["how to stop overthinking"], response: "Focus on the present, challenge negative thoughts, and practice mindfulness." },
+
+    // SELF-IMPROVEMENT & SUCCESS
+    { keywords: ["how to be successful"], response: "Set clear goals, work hard, stay persistent, and never stop learning." },
+    { keywords: ["how to build confidence"], response: "Practice self-care, challenge negative thoughts, and step out of your comfort zone." },
+    { keywords: ["how to develop good habits"], response: "Start small, be consistent, and track your progress." },
+    { keywords: ["how to overcome fear"], response: "Face your fears gradually and replace fear with positive actions." },
+
+    // CAREER & JOB INTERVIEWS
+    { keywords: ["how to prepare for an interview"], response: "Research the company, practice common questions, and dress professionally." },
+    { keywords: ["how to ask for a raise"], response: "Highlight your achievements and present your case confidently." },
+    { keywords: ["best career advice"], response: "Find something you're passionate about, keep learning, and build strong connections." },
+
+    // PSYCHOLOGY & HUMAN BEHAVIOR
+    { keywords: ["why do people lie"], response: "People lie for various reasons, including fear, protection, or manipulation." },
+    { keywords: ["why do we dream"], response: "Dreams are a mix of subconscious thoughts, memories, and emotions." },
+    { keywords: ["why do we procrastinate"], response: "Fear of failure, perfectionism, and lack of motivation can cause procrastination." },
+    { keywords: ["what is emotional intelligence"], response: "It's the ability to understand, manage, and express emotions effectively." },
+
+    // HISTORY & CULTURE
+    { keywords: ["who discovered america"], response: "Christopher Columbus reached the Americas in 1492, though indigenous people lived there long before." },
+    { keywords: ["who built the pyramids"], response: "The ancient Egyptians built the pyramids using skilled laborers and advanced engineering." },
+    { keywords: ["who was the first president"], response: "George Washington was the first president of the United States." },
+
+    // SCIENCE & UNIVERSE
+    { keywords: ["how big is the universe"], response: "The observable universe is about 93 billion light-years across." },
+    { keywords: ["what is a black hole"], response: "A black hole is a region in space where gravity is so strong that nothing can escape from it." },
+    { keywords: ["how do planes fly"], response: "Planes fly due to the lift generated by their wings as air moves over them." },
+    { keywords: ["what is quantum mechanics"], response: "It's the study of how particles behave at extremely small scales." },
+
+    // HEALTH & FITNESS (NEW TOPICS)
+    { keywords: ["best diet for weight loss"], response: "A balanced diet with whole foods, protein, fiber, and healthy fats works best." },
+    { keywords: ["how to boost immunity"], response: "Eat a balanced diet, exercise regularly, and get enough sleep." },
+    { keywords: ["best exercises for abs"], response: "Planks, crunches, and leg raises help strengthen your core." },
+    { keywords: ["how to improve digestion"], response: "Drink water, eat fiber-rich foods, and avoid processed junk food." },
+
+    // TRAVEL & ADVENTURE (NEW TOPICS)
+    { keywords: ["best place to travel in europe"], response: "Paris, Rome, and Barcelona are great choices!" },
+    { keywords: ["how to travel on a budget"], response: "Book in advance, use public transport, and eat local food." },
+    { keywords: ["best travel hacks"], response: "Roll your clothes to save space, use Google Maps offline, and pack light." },
+
+    // BUSINESS & FINANCIAL TIPS
+    { keywords: ["how to start investing"], response: "Start small, diversify, and think long-term." },
+    { keywords: ["best passive income ideas"], response: "Investing, real estate, digital products, and affiliate marketing work well." },
+    { keywords: ["how to build wealth"], response: "Save, invest, and create multiple streams of income." },
+
+    // FOOD & DRINKS (NEW TOPICS)
+    { keywords: ["how to make coffee"], response: "Grind fresh beans, use hot water, and brew to your liking!" },
+    { keywords: ["best street food"], response: "Tacos in Mexico, Pad Thai in Thailand, and Sushi in Japan are must-tries!" },
+    { keywords: ["how to make pizza"], response: "Make dough, add sauce, toppings, and bake at high heat!" },
+
+    // GAMING & ESPORTS
+    { keywords: ["best video game"], response: "Depends on your taste! Some popular games are GTA V, The Witcher 3, and Minecraft." },
+    { keywords: ["what is esports"], response: "Esports refers to competitive gaming where players compete in professional tournaments." },
+    { keywords: ["best gaming console"], response: "PlayStation is great for exclusives, Xbox for performance, and Switch for portability!" },
+
+    // MUSIC & MOVIES
+    { keywords: ["best music artist"], response: "That depends on your taste! Do you prefer pop, rock, hip-hop, or classical?" },
+    { keywords: ["who won the last oscar"], response: "Let me check the latest Oscar winners for you!" },
+    { keywords: ["best movie of all time"], response: "Many consider 'The Godfather' or 'Shawshank Redemption' among the best movies ever." },
+
+    // RANDOM FACTS & TRIVIA
+    { keywords: ["weird fact"], response: "Bananas are berries, but strawberries aren’t!" },
+    { keywords: ["did you know"], response: "Octopuses have three hearts and blue blood!" },
+    { keywords: ["cool fact"], response: "A day on Venus is longer than a year on Venus!" },
+
+    // INTERNET & SOCIAL MEDIA
+    { keywords: ["how does google work"], response: "Google uses complex algorithms to rank websites based on relevance and authority." },
+    { keywords: ["best way to grow on social media"], response: "Post consistently, engage with followers, and use trending topics." },
+    { keywords: ["what is an influencer"], response: "An influencer is someone with a large online following who impacts opinions and trends." },
+
+    // RANDOM CONVERSATIONS
+    { keywords: ["what is your favorite color"], response: "I don’t have a preference, but I hear blue is quite popular!" },
+    { keywords: ["can you dance"], response: "I would if I had legs! But I can help you find dance tutorials!" },
+    { keywords: ["do you believe in aliens"], response: "The universe is vast, so anything is possible!" },
+
+    // CONCLUSION
+    { keywords: ["thank you"], response: "You're welcome! Let me know if you need anything else." },
+    { keywords: ["you're awesome"], response: "Thanks! You're awesome too!" },
+	 // PHILOSOPHY & DEEP QUESTIONS
+    { keywords: ["what is the meaning of life"], response: "The meaning of life is subjective. Some find it in love, knowledge, or purpose." },
+    { keywords: ["does free will exist"], response: "Some believe in free will, while others argue everything is predetermined." },
+    { keywords: ["what is consciousness"], response: "Consciousness is the state of being aware and able to think." },
+    { keywords: ["are we living in a simulation"], response: "Some scientists and philosophers think it’s possible, but there’s no proof yet." },
+
+    // SPACE & ASTRONOMY
+    { keywords: ["how do stars form"], response: "Stars form from clouds of gas and dust collapsing under gravity." },
+    { keywords: ["what is the largest planet"], response: "Jupiter is the largest planet in our solar system." },
+    { keywords: ["can humans live on mars"], response: "Not yet, but scientists are working on making Mars habitable in the future!" },
+
+    // ADVANCED TECHNOLOGY & FUTURE TECH
+    { keywords: ["what is nanotechnology"], response: "Nanotechnology is the manipulation of matter on an atomic or molecular scale." },
+    { keywords: ["what is quantum computing"], response: "Quantum computing uses quantum bits (qubits) to perform complex calculations." },
+    { keywords: ["can AI take over the world"], response: "AI is a tool made by humans, but ethical concerns about its control exist." },
+
+    // MEDICAL & HEALTHCARE
+    { keywords: ["what is cancer"], response: "Cancer is the uncontrolled growth of abnormal cells in the body." },
+    { keywords: ["how to prevent heart disease"], response: "Eat a healthy diet, exercise regularly, and avoid smoking." },
+    { keywords: ["what is the best way to sleep better"], response: "Maintain a consistent sleep schedule, avoid screens before bed, and relax." },
+
+    // LANGUAGE & LINGUISTICS
+    { keywords: ["what is the hardest language to learn"], response: "Mandarin, Arabic, and Japanese are among the hardest for English speakers." },
+    { keywords: ["how many languages are there"], response: "There are about 7,000 languages spoken worldwide." },
+    { keywords: ["what is the origin of english"], response: "English evolved from Old English, influenced by Latin, Norse, and French." },
+
+    // LEGAL & RIGHTS
+    { keywords: ["what are human rights"], response: "Human rights are basic rights and freedoms all people are entitled to." },
+    { keywords: ["how to file a complaint against a company"], response: "Check your local consumer protection agency or legal services." },
+    { keywords: ["what is copyright"], response: "Copyright protects original works from being copied without permission." },
+
+    // CULTURE & TRADITIONS
+    { keywords: ["what is the most celebrated holiday"], response: "Christmas and New Year's are celebrated worldwide." },
+    { keywords: ["why do people celebrate halloween"], response: "Halloween originated from ancient Celtic traditions and evolved into a fun holiday." },
+    { keywords: ["what is a tradition"], response: "A tradition is a custom or belief passed down through generations." },
+
+    // EXTREME WEATHER & NATURAL DISASTERS
+    { keywords: ["what causes earthquakes"], response: "Earthquakes occur due to the movement of tectonic plates." },
+    { keywords: ["what is a tsunami"], response: "A tsunami is a giant wave caused by underwater earthquakes or volcanic eruptions." },
+    { keywords: ["how to prepare for a hurricane"], response: "Stock up on supplies, secure your home, and follow evacuation orders." },
+
+    // ENVIRONMENT & SUSTAINABILITY
+    { keywords: ["how to reduce plastic waste"], response: "Use reusable bags, bottles, and containers to cut down on plastic waste." },
+    { keywords: ["what is climate change"], response: "Climate change is the long-term alteration of temperature and weather patterns." },
+    { keywords: ["why are bees important"], response: "Bees pollinate plants, helping agriculture and biodiversity." },
+
+    // SOCIAL MEDIA & INFLUENCERS
+    { keywords: ["who is the most followed person on instagram"], response: "Let me check the latest updates for you!" },
+    { keywords: ["how to become an influencer"], response: "Create quality content, engage with your audience, and be consistent." },
+    { keywords: ["what is social media marketing"], response: "It’s using social platforms to promote brands, products, or services." },
+
+    // CRYPTOCURRENCY & BLOCKCHAIN
+    { keywords: ["what is bitcoin"], response: "Bitcoin is a decentralized digital currency without a central bank." },
+    { keywords: ["how does blockchain work"], response: "Blockchain is a decentralized ledger that records transactions securely." },
+    { keywords: ["is cryptocurrency safe"], response: "Crypto can be volatile and risky, so do research before investing." },
+
+    // MYTHOLOGY & LEGENDS
+    { keywords: ["who was zeus"], response: "Zeus is the king of the Greek gods in mythology." },
+    { keywords: ["what is the legend of atlantis"], response: "Atlantis is a mythical lost city described by Plato." },
+    { keywords: ["who is thor"], response: "Thor is the Norse god of thunder, also popular in Marvel comics." },
+
+    // RANDOM & FUN
+    { keywords: ["can you tell me a scary story"], response: "Sure! Do you want a ghost story or a psychological thriller?" },
+    { keywords: ["what is the rarest animal"], response: "The Vaquita dolphin is one of the rarest animals in the world." },
+    { keywords: ["what is the longest word"], response: "Pneumonoultramicroscopicsilicovolcanoconiosis is the longest word in English!" },
+
+    // WEIRD & UNEXPECTED QUESTIONS
+    { keywords: ["can fish see water"], response: "Fish likely don’t perceive water the same way we do." },
+    { keywords: ["do snails have teeth"], response: "Yes! Snails have thousands of tiny teeth on their radula." },
+    { keywords: ["can you sneeze with your eyes open"], response: "It's nearly impossible because of an automatic reflex!" },
+
+    // HACKING & CYBERSECURITY
+    { keywords: ["how to protect my password"], response: "Use a strong, unique password and enable two-factor authentication." },
+    { keywords: ["what is phishing"], response: "Phishing is a cyberattack where scammers trick you into giving personal info." },
+    { keywords: ["how to stay safe online"], response: "Avoid sharing personal info, use strong passwords, and be cautious with emails." },
+
+    // UNEXPLAINED PHENOMENA
+    { keywords: ["what is the bermuda triangle"], response: "The Bermuda Triangle is an area where ships and planes have mysteriously disappeared." },
+    { keywords: ["are ghosts real"], response: "There’s no scientific proof, but many cultures believe in spirits." },
+    { keywords: ["what is deja vu"], response: "Deja vu is the feeling of experiencing something again, though it’s happening for the first time." },
+
+    // FOOD SCIENCE & COOKING TIPS
+    { keywords: ["why does bread rise"], response: "Bread rises because of yeast, which produces carbon dioxide gas." },
+    { keywords: ["why do onions make you cry"], response: "Onions release sulfuric compounds that irritate the eyes." },
+    { keywords: ["best way to cook steak"], response: "Let it rest at room temperature, season well, and cook at high heat!" },
+	 // ANCIENT CIVILIZATIONS & HISTORY
+    { keywords: ["who built the great wall of china"], response: "The Great Wall was built by several Chinese dynasties, starting with the Qin Dynasty." },
+    { keywords: ["who were the vikings"], response: "The Vikings were Norse explorers and warriors from Scandinavia." },
+    { keywords: ["what is the oldest civilization"], response: "Sumerians in Mesopotamia are considered one of the oldest known civilizations." },
+
+    // WEIRD & BIZARRE SCIENCE FACTS
+    { keywords: ["can humans breathe in space"], response: "No, space is a vacuum with no oxygen, so astronauts need suits to survive." },
+    { keywords: ["what is antimatter"], response: "Antimatter is the opposite of normal matter, with particles having opposite charges." },
+    { keywords: ["why do we hiccup"], response: "Hiccups are caused by involuntary contractions of the diaphragm." },
+
+    // UNSOLVED MYSTERIES
+    { keywords: ["what happened to the lost city of roanoke"], response: "The settlers of Roanoke mysteriously disappeared, leaving only the word 'CROATOAN' behind." },
+    { keywords: ["what is the dyatlov pass incident"], response: "Nine hikers mysteriously died in 1959 under unexplained circumstances in Russia." },
+    { keywords: ["is the loch ness monster real"], response: "There is no scientific evidence of its existence, but many legends persist." },
+
+    // AI & ROBOTICS
+    { keywords: ["will AI replace human jobs"], response: "AI will automate some jobs but also create new opportunities." },
+    { keywords: ["what is the turing test"], response: "The Turing Test measures a machine's ability to exhibit human-like intelligence." },
+    { keywords: ["can robots have emotions"], response: "Robots can mimic emotions, but they don’t actually feel them like humans do." },
+
+    // HACKING & DARK WEB
+    { keywords: ["what is the dark web"], response: "The dark web is a part of the internet that requires special software to access, often used for anonymity." },
+    { keywords: ["how do hackers hack"], response: "Hackers use various techniques like phishing, malware, and exploiting security vulnerabilities." },
+    { keywords: ["what is ethical hacking"], response: "Ethical hacking involves testing systems for vulnerabilities to help improve security." },
+
+    // EXTREME SPORTS & ADVENTURE
+    { keywords: ["what is skydiving"], response: "Skydiving is jumping from an aircraft with a parachute for a thrilling free-fall experience." },
+    { keywords: ["how to climb mount everest"], response: "Climbing Everest requires extreme preparation, training, and permits." },
+    { keywords: ["what is the most dangerous sport"], response: "BASE jumping and free solo rock climbing are among the most dangerous sports." },
+
+    // FAMOUS ART & PAINTINGS
+    { keywords: ["who painted the mona lisa"], response: "Leonardo da Vinci painted the Mona Lisa in the 16th century." },
+    { keywords: ["what is surrealism"], response: "Surrealism is an artistic movement that explores dreamlike and illogical themes." },
+    { keywords: ["what is the most expensive painting"], response: "Leonardo da Vinci's 'Salvator Mundi' was sold for over $450 million." },
+
+    // MILITARY & WEAPONRY
+    { keywords: ["what is the strongest military in the world"], response: "The U.S. military is considered the most powerful based on technology and budget." },
+    { keywords: ["what is a stealth fighter"], response: "A stealth fighter is a jet designed to avoid detection by radar." },
+    { keywords: ["how do submarines work"], response: "Submarines use ballast tanks to control buoyancy and navigate underwater." },
+
+    // BUSINESS & ENTREPRENEURSHIP
+    { keywords: ["how to start a startup"], response: "Identify a problem, create a solution, validate your idea, and find funding." },
+    { keywords: ["what is venture capital"], response: "Venture capital is funding provided to startups in exchange for equity." },
+    { keywords: ["what is passive income"], response: "Passive income is money earned with minimal effort, like from investments or royalties." },
+
+    // LUXURY & HIGH-END LIVING
+    { keywords: ["what is the most expensive car"], response: "The Rolls-Royce Boat Tail is one of the most expensive cars, costing around $28 million." },
+    { keywords: ["what is the most luxurious hotel"], response: "Burj Al Arab in Dubai is considered one of the most luxurious hotels in the world." },
+    { keywords: ["what is a private jet"], response: "A private jet is a personal aircraft used for exclusive travel, often by celebrities and executives." },
+
+    // PARANORMAL & CONSPIRACY THEORIES
+    { keywords: ["are aliens real"], response: "There is no confirmed evidence, but many believe in extraterrestrial life." },
+    { keywords: ["what is the mandela effect"], response: "The Mandela Effect is when many people remember events differently from reality." },
+    { keywords: ["is time travel possible"], response: "According to physics, time dilation exists, but actual time travel is still theoretical." },
+
+    // UNUSUAL WORLD RECORDS
+    { keywords: ["what is the longest fingernail record"], response: "The longest fingernails ever recorded belonged to Lee Redmond, measuring over 28 feet total." },
+    { keywords: ["who is the fastest person"], response: "Usain Bolt holds the world record for the fastest 100m sprint." },
+    { keywords: ["what is the largest animal"], response: "The blue whale is the largest animal on Earth." },
+
+    // SUPERHEROES & COMICS
+    { keywords: ["who is the strongest superhero"], response: "Superman, Thor, and The Hulk are among the strongest superheroes." },
+    { keywords: ["who created batman"], response: "Batman was created by Bob Kane and Bill Finger in 1939." },
+    { keywords: ["what is the first comic book"], response: "The first modern comic book is considered to be 'Famous Funnies' (1933)." },
+
+    // MUSIC GENRES & ARTISTS
+    { keywords: ["who is the king of pop"], response: "Michael Jackson is known as the King of Pop." },
+    { keywords: ["what is jazz"], response: "Jazz is a music genre that originated in African American communities in the early 20th century." },
+    { keywords: ["what is the most popular song ever"], response: "Many consider 'Imagine' by John Lennon or 'Bohemian Rhapsody' by Queen as top songs." },
+
+    // ANIME & MANGA
+    { keywords: ["what is the most popular anime"], response: "Some of the most popular anime include Naruto, One Piece, and Attack on Titan." },
+    { keywords: ["who created dragon ball"], response: "Akira Toriyama created Dragon Ball." },
+    { keywords: ["what is the longest-running anime"], response: "Sazae-san holds the record for the longest-running anime series." },
+
+    // LITERATURE & BOOKS
+    { keywords: ["who wrote harry potter"], response: "J.K. Rowling wrote the Harry Potter series." },
+    { keywords: ["what is the best-selling book"], response: "The Bible is the best-selling book of all time." },
+    { keywords: ["who is shakespeare"], response: "William Shakespeare was an English playwright and poet, famous for works like 'Hamlet' and 'Romeo and Juliet'." },
+
+    // RANDOM FUN QUESTIONS
+    { keywords: ["can a person live without sleep"], response: "No, prolonged sleep deprivation can be fatal." },
+    { keywords: ["what is the rarest color in nature"], response: "Blue is one of the rarest colors found naturally in living organisms." },
+    { keywords: ["do fish sleep"], response: "Yes, but they enter a restful state instead of deep sleep like humans." },
+	  // 🏆 UNBELIEVABLE WORLD RECORDS
+    { keywords: ["who has the longest hair"], response: "Xie Qiuping from China holds the record for the longest hair, at over 18 feet." },
+    { keywords: ["who ate the most burgers"], response: "Joey Chestnut set a record for eating 32 Big Macs in 38 minutes!" },
+    { keywords: ["what is the heaviest pumpkin"], response: "The world record for the heaviest pumpkin is over 2,700 pounds!" },
+
+    // 🎩 MAGIC, ILLUSIONS & TRICKS
+    { keywords: ["how do magicians levitate"], response: "Magicians use hidden supports, wires, or clever misdirection to create levitation illusions." },
+    { keywords: ["who is the best magician"], response: "Famous magicians include Houdini, David Copperfield, and Dynamo." },
+    { keywords: ["what is sleight of hand"], response: "Sleight of hand is a technique used by magicians to manipulate objects secretly." },
+
+    // 🧬 STRANGE HUMAN ABILITIES & MUTATIONS
+    { keywords: ["can humans have superpowers"], response: "While real superpowers don’t exist, some people have extraordinary physical abilities." },
+    { keywords: ["what is the rarest eye color"], response: "Amber and gray are among the rarest natural eye colors." },
+    { keywords: ["can people have photographic memory"], response: "Some individuals have exceptional memory, known as eidetic memory, but it's rare." },
+
+    // 🎭 UNEXPLAINED CULTURAL PHENOMENA
+    { keywords: ["what is the cargo cult"], response: "Cargo cults are rituals where isolated groups mimic modern technology, believing it will bring goods." },
+    { keywords: ["why do people believe in astrology"], response: "Astrology suggests celestial bodies influence human behavior, though there's no scientific proof." },
+    { keywords: ["what is a tulpa"], response: "A tulpa is a thoughtform that, according to Tibetan mysticism, can become an independent entity." },
+
+    // 🚀 FUTURISTIC TECHNOLOGIES
+    { keywords: ["what is neuralink"], response: "Neuralink is Elon Musk's project to connect human brains with computers using brain implants." },
+    { keywords: ["will humans colonize other planets"], response: "Scientists are working on technology to colonize Mars and beyond in the future." },
+    { keywords: ["what is cryonics"], response: "Cryonics is the process of freezing a body after death, hoping future science can revive it." },
+
+    // 🕵️‍♂️ FAMOUS HEISTS & CRIMES
+    { keywords: ["what was the biggest bank heist"], response: "The 2003 Central Bank of Iraq heist involved over $1 billion being stolen." },
+    { keywords: ["who was the zodiac killer"], response: "The Zodiac Killer was an unidentified serial killer in the late 1960s." },
+    { keywords: ["what is the most expensive stolen item"], response: "The Mona Lisa was stolen in 1911 but later recovered." },
+
+    // 🏰 LEGENDS, MYTHS & FOLKLORE
+    { keywords: ["what is the chupacabra"], response: "The Chupacabra is a legendary creature said to suck the blood of livestock." },
+    { keywords: ["who was king arthur"], response: "King Arthur is a legendary British ruler, famous for Excalibur and the Round Table." },
+    { keywords: ["what is the fountain of youth"], response: "The Fountain of Youth is a mythical spring that grants eternal youth." },
+
+    // 🛸 ALIENS, UFOs & SPACE MYSTERIES
+    { keywords: ["what is area 51"], response: "Area 51 is a secret U.S. military base rumored to house UFOs and aliens." },
+    { keywords: ["what is the wow! signal"], response: "The Wow! signal was a strong radio signal from space that remains unexplained." },
+    { keywords: ["do black holes lead to other universes"], response: "Some theories suggest black holes could be gateways to other dimensions." },
+
+    // 💀 STRANGE & DARK HISTORY
+    { keywords: ["who was vlad the impaler"], response: "Vlad the Impaler was a 15th-century ruler known for his brutal tactics, inspiring Dracula." },
+    { keywords: ["what is the dancing plague"], response: "In 1518, people in Strasbourg danced uncontrollably for weeks, with no clear cause." },
+    { keywords: ["what happened to amelia earhart"], response: "Amelia Earhart vanished in 1937 during her attempt to fly around the world." },
+
+    // 🍽️ UNUSUAL FOODS & DELICACIES
+    { keywords: ["what is the most expensive food"], response: "White truffles, Wagyu beef, and Almas caviar are among the most expensive foods." },
+    { keywords: ["what is fugu"], response: "Fugu is a pufferfish dish that’s highly toxic if not prepared correctly." },
+    { keywords: ["what is the world's stinkiest food"], response: "Surströmming, a Swedish fermented fish, is considered one of the stinkiest foods." },
+
+    // 🎮 VIDEO GAMES & ESPORTS
+    { keywords: ["what is the most popular video game"], response: "Minecraft and Grand Theft Auto V are among the best-selling games ever." },
+    { keywords: ["who is the best gamer"], response: "Top esports players include Faker (League of Legends) and Bugha (Fortnite)." },
+    { keywords: ["what is speedrunning"], response: "Speedrunning is completing a game as fast as possible using strategies and glitches." },
+
+    // 📺 INTERNET CULTURE & MEMES
+    { keywords: ["what is the oldest meme"], response: "The ‘Dancing Baby’ from the 1990s is one of the first internet memes." },
+    { keywords: ["who is doge"], response: "Doge is an internet meme featuring a Shiba Inu dog with humorous captions." },
+    { keywords: ["what is a rickroll"], response: "A rickroll is an internet prank that redirects users to Rick Astley’s song 'Never Gonna Give You Up'." },
+
+    // 🎤 CELEBRITY SECRETS & HOLLYWOOD
+    { keywords: ["who is the richest celebrity"], response: "Elon Musk, Jeff Bezos, and Oprah Winfrey are among the wealthiest celebrities." },
+    { keywords: ["what is the most-watched movie"], response: "Avatar and Titanic are among the highest-grossing movies ever." },
+    { keywords: ["what is method acting"], response: "Method acting is when actors deeply immerse themselves in their roles, sometimes staying in character off-screen." },
+
+    // 🏆 SPORTS RECORDS & FUN FACTS
+    { keywords: ["who scored the most goals in football"], response: "Cristiano Ronaldo and Lionel Messi have scored the most career goals." },
+    { keywords: ["what is the fastest 100m sprint"], response: "Usain Bolt holds the world record at 9.58 seconds." },
+    { keywords: ["who has the longest winning streak in sports"], response: "Jahangir Khan had a 555-match winning streak in squash!" },
+
+    // 🛍️ SHOPPING & LUXURY BRANDS
+    { keywords: ["what is the most expensive handbag"], response: "The ‘Mouawad 1001 Nights Diamond Purse’ costs over $3 million." },
+    { keywords: ["what is the rarest sneaker"], response: "The Nike Air Mag from Back to the Future is among the rarest sneakers." },
+    { keywords: ["who owns gucci"], response: "Gucci is owned by the French luxury group Kering." },
+	 // 🌎 EXTREME SURVIVAL & DISASTER PREP
+    { keywords: ["how to survive a bear attack"], response: "Stay calm. If it's a black bear, fight back. If it's a grizzly, play dead unless it continues attacking." },
+    { keywords: ["what to do in a zombie apocalypse"], response: "Secure shelter, find food, avoid large groups, and never trust strangers too quickly." },
+    { keywords: ["how to purify water in the wild"], response: "Boil it for at least 5 minutes, use purification tablets, or filter it through sand and charcoal." },
+
+    // 👁️‍🗨️ CONSPIRACY THEORIES & SECRETS
+    { keywords: ["what is project blue beam"], response: "A conspiracy theory suggesting a staged alien invasion to establish a one-world government." },
+    { keywords: ["is the moon landing fake"], response: "The moon landing was real, supported by extensive evidence, but conspiracy theories persist." },
+    { keywords: ["what is MKUltra"], response: "A secret CIA project that experimented with mind control using LSD and hypnosis in the 1950s-70s." },
+
+    // 🛸 ADVANCED ALIEN & UFO THEORIES
+    { keywords: ["what is the drake equation"], response: "An equation estimating the probability of extraterrestrial life in the universe." },
+    { keywords: ["who are the annunaki"], response: "Ancient Sumerian texts describe the Annunaki as deities, but some believe they were aliens." },
+    { keywords: ["what are the men in black"], response: "Mysterious agents rumored to silence witnesses of UFO sightings." },
+
+    // ⏳ TIME TRAVEL & PARALLEL UNIVERSES
+    { keywords: ["has anyone time traveled"], response: "There are no verified cases, but theories suggest time dilation makes it theoretically possible." },
+    { keywords: ["what is the mandela effect"], response: "A phenomenon where many people remember events differently than recorded history." },
+    { keywords: ["are parallel universes real"], response: "Some physicists believe in the multiverse theory, but it's still unproven." },
+
+    // 🔑 FORBIDDEN KNOWLEDGE & SECRET SOCIETIES
+    { keywords: ["who are the illuminati"], response: "A rumored secret society believed to influence world events, but its existence is debated." },
+    { keywords: ["what is the biggest hidden treasure"], response: "Some say the Oak Island Money Pit or the lost Incan gold of the Llanganates." },
+    { keywords: ["what is the Voynich manuscript"], response: "An ancient book filled with unknown symbols and an undeciphered language." },
+
+    // 🏴‍☠️ LOST PIRATE TREASURES & MYTHS
+    { keywords: ["where is blackbeard's treasure"], response: "Blackbeard’s treasure has never been found and remains one of history’s great mysteries." },
+    { keywords: ["what is the curse of oak island"], response: "A legendary treasure supposedly buried on Oak Island, with many failed attempts to retrieve it." },
+    { keywords: ["what is the kraken"], response: "A mythical giant sea monster feared by sailors, possibly inspired by real giant squids." },
+
+    // 🧠 UNEXPLAINED HUMAN POWERS & PSYCHIC ABILITIES
+    { keywords: ["can people read minds"], response: "There is no scientific proof, but some claim telepathic abilities." },
+    { keywords: ["what is astral projection"], response: "A practice where people claim to separate their spirit from their physical body." },
+    { keywords: ["can people see the future"], response: "There’s no scientific proof of future sight, but some claim to experience premonitions." },
+
+    // 🔥 ANCIENT ALIENS & LOST TECHNOLOGY
+    { keywords: ["what is the pyramids conspiracy"], response: "Some believe aliens helped build them due to their precise alignments." },
+    { keywords: ["what is atlantis"], response: "A legendary advanced civilization mentioned by Plato, possibly based on real events." },
+    { keywords: ["what are vimanas"], response: "Described in ancient Indian texts, vimanas were mythical flying machines." },
+
+    // 🚀 FUTURE TECHNOLOGY & SCI-FI PREDICTIONS
+    { keywords: ["will AI take over the world"], response: "AI will transform society, but true autonomy is far from reality—for now." },
+    { keywords: ["what is nanotechnology"], response: "The science of building machines at a molecular level, with medical and industrial applications." },
+    { keywords: ["can humans live on mars"], response: "NASA and SpaceX are working on it, but major challenges remain, like radiation and sustainability." },
+
+    // ⚡ LEGENDARY WEAPONS & ARTIFACTS
+    { keywords: ["what is excalibur"], response: "The legendary sword of King Arthur, said to grant immense power to its wielder." },
+    { keywords: ["what is mjolnir"], response: "Thor’s mythical hammer, capable of summoning lightning and only wielded by the worthy." },
+    { keywords: ["what is the spear of destiny"], response: "A relic believed to be the spear that pierced Jesus, said to grant great power." },
+
+    // 🎮 VIDEO GAME LORE & HIDDEN SECRETS
+    { keywords: ["what is the oldest video game"], response: "Pong (1972) is one of the first video games, but older prototypes existed before." },
+    { keywords: ["what is herobrine"], response: "A creepypasta about a mysterious ghost character in Minecraft, though never officially in the game." },
+    { keywords: ["what is the biggest video game mystery"], response: "Polybius, an alleged arcade game rumored to cause hallucinations and disappear mysteriously." },
+
+    // 🏴‍☠️ DARK WEB & HACKER SECRETS
+    { keywords: ["what is the silk road"], response: "A now-defunct illegal marketplace on the dark web." },
+    { keywords: ["who is anonymous"], response: "A hacktivist group known for cyberattacks on governments and corporations." },
+    { keywords: ["what is a zero-day exploit"], response: "A software vulnerability unknown to developers, often used by hackers before a fix exists." },
+
+    // 🏛️ MYTHICAL CIVILIZATIONS & FORGOTTEN LANDS
+    { keywords: ["was there a real el dorado"], response: "El Dorado was a mythical city of gold sought by Spanish explorers but never found." },
+    { keywords: ["what is shambhala"], response: "A legendary hidden kingdom in Buddhist tradition, sometimes linked to the Hollow Earth theory." },
+    { keywords: ["what is agartha"], response: "A mythical city believed to exist inside the Earth, often tied to hollow Earth theories." },
+	 // 🕵️‍♂️ OCCULT & FORBIDDEN KNOWLEDGE
+    { keywords: ["what is the book of thoth"], response: "An ancient mystical book said to contain secrets of the universe, linked to Egyptian gods." },
+    { keywords: ["what is the philosopher's stone"], response: "A legendary substance in alchemy said to grant immortality and turn metals into gold." },
+    { keywords: ["what is the emerald tablet"], response: "A cryptic text attributed to Hermes Trismegistus, containing alchemical secrets." },
+
+    // 🏛️ LOST CIVILIZATIONS & HIDDEN RELICS
+    { keywords: ["what is gobekli tepe"], response: "A mysterious ancient site in Turkey, older than the pyramids, with unknown origins." },
+    { keywords: ["what happened to tartaria"], response: "A conspiracy claims an advanced civilization called Tartaria was erased from history." },
+    { keywords: ["what is the crystal skull mystery"], response: "Crystal skulls found in various locations are believed to hold ancient knowledge." },
+
+    // 🔒 SECRET SOCIETIES & ELITE CONSPIRACIES
+    { keywords: ["who are the bilderberg group"], response: "A real-world annual meeting of global elites, sparking many conspiracy theories." },
+    { keywords: ["what is bohemian grove"], response: "A secretive gathering of powerful figures in California, involving unusual rituals." },
+    { keywords: ["does the vatican have secret archives"], response: "The Vatican Archives contain restricted historical documents, fueling many theories." },
+
+    // 🔥 SCP ANOMALIES & STRANGE PHENOMENA
+    { keywords: ["what is SCP-173"], response: "A dangerous statue-like entity that moves when not observed, known as 'The Sculpture'." },
+    { keywords: ["what is SCP-096"], response: "A humanoid that violently reacts if someone sees its face, called 'The Shy Guy'." },
+    { keywords: ["what is SCP-682"], response: "A nearly indestructible reptilian creature with immense intelligence and hatred for humans." },
+
+    // 🧠 DEEP PSYCHOLOGY & MIND CONTROL
+    { keywords: ["what is gaslighting"], response: "A psychological manipulation technique that makes someone doubt their reality." },
+    { keywords: ["what is the Stanford prison experiment"], response: "A study showing how ordinary people can become abusive when given power." },
+    { keywords: ["what is the dark triad personality"], response: "A combination of narcissism, Machiavellianism, and psychopathy in one personality." },
+
+    // 👁️ CREEPY URBAN LEGENDS & HORROR
+    { keywords: ["what is the backrooms"], response: "A creepypasta about an endless maze of yellow rooms, outside of normal reality." },
+    { keywords: ["who is slender man"], response: "A tall, faceless figure said to stalk and abduct children, born from internet folklore." },
+    { keywords: ["what is the Russian sleep experiment"], response: "A horror story about Soviet scientists who kept people awake for weeks, with terrifying results." },
+
+    // 🏴‍☠️ HIDDEN TREASURES & LOST ARTIFACTS
+    { keywords: ["where is the ark of the covenant"], response: "Believed to be hidden, possibly in Ethiopia or a secret Vatican vault." },
+    { keywords: ["what is the holy grail"], response: "A legendary relic, said to be the cup Jesus used at the Last Supper." },
+    { keywords: ["what is the copper scroll"], response: "An ancient Dead Sea Scroll describing hidden treasures, but no one has found them all." },
+
+    // 🔫 MILITARY BLACK PROJECTS & CONSPIRACIES
+    { keywords: ["what is project aurora"], response: "A rumored top-secret hypersonic spy plane, possibly replacing the SR-71 Blackbird." },
+    { keywords: ["what is operation paperclip"], response: "A real U.S. program that recruited Nazi scientists after WWII." },
+    { keywords: ["what is the Philadelphia experiment"], response: "A rumored experiment in which a U.S. Navy ship supposedly teleported." },
+
+    // 💸 ELITE BILLIONAIRE SECRETS & DARK ECONOMY
+    { keywords: ["what is the petrodollar"], response: "A financial system where oil trade is conducted in U.S. dollars, influencing global power." },
+    { keywords: ["what is the LIBOR scandal"], response: "A financial scandal where banks manipulated interest rates for profit." },
+    { keywords: ["what is a shadow bank"], response: "Financial institutions that operate like banks but without regulations, often used by elites." },
+
+    // 💻 INTERNET RABBIT HOLES & CYBER MYSTERIES
+    { keywords: ["what is cicada 3301"], response: "An internet cryptography puzzle designed by an unknown group, still unsolved." },
+    { keywords: ["what is webdriver torso"], response: "A mysterious YouTube channel that uploaded thousands of cryptic videos." },
+    { keywords: ["what is the oldest website"], response: "The first website ever created was CERN’s homepage in 1991." },
+
+    // 🚀 SCI-FI THEORIES THAT MIGHT BE REAL
+    { keywords: ["what is the simulation theory"], response: "A theory suggesting our reality is a computer simulation created by advanced beings." },
+    { keywords: ["what is quantum immortality"], response: "A concept where consciousness always shifts to a universe where you survive." },
+    { keywords: ["can humans become cyborgs"], response: "With brain implants and advanced prosthetics, the line between human and machine is blurring." },
+	 // 🌍 ULTIMATE SURVIVAL & DOOMSDAY PREP
+    { keywords: ["how to survive a nuclear blast"], response: "Find shelter underground or in a thick-walled building, avoid exposure for 24-48 hours, and stay informed via emergency broadcasts." },
+    { keywords: ["what to do during an EMP attack"], response: "Have a Faraday cage to protect electronics, stockpile essentials, and prepare for power grid failure." },
+    { keywords: ["how to make fire without matches"], response: "Use a flint and steel, a battery with steel wool, or the bow drill method." },
+
+    // 🚀 ADVANCED SCI-FI & FUTURE TECH
+    { keywords: ["will AI become conscious"], response: "Current AI lacks self-awareness, but future advancements could bring new ethical challenges." },
+    { keywords: ["what is space mining"], response: "Extracting minerals from asteroids, potentially a trillion-dollar industry in the future." },
+    { keywords: ["can humans achieve immortality"], response: "Scientists are researching anti-aging tech, cryonics, and digital consciousness uploads." },
+
+    // 👻 HORROR, CRYPTIDS & PARANORMAL PHENOMENA
+    { keywords: ["what is a skinwalker"], response: "A Navajo legend about shapeshifting witches with dark powers." },
+    { keywords: ["what is the wendigo"], response: "A mythical creature from Algonquian folklore, representing insatiable greed and cannibalism." },
+    { keywords: ["are ghosts real"], response: "There’s no scientific proof, but many report unexplained paranormal experiences." },
+
+    // 🧠 PSYCHOLOGY HACKS & MIND TRICKS
+    { keywords: ["how to tell if someone is lying"], response: "Look for microexpressions, inconsistencies in their story, and excessive detail." },
+    { keywords: ["how to make someone like you"], response: "Use the 'mirror effect'—subtly mimic their body language to build rapport." },
+    { keywords: ["how to boost memory"], response: "Use the method of loci, spaced repetition, and active recall techniques." },
+
+    // 💰 BILLIONAIRE SECRETS & ELITE POWER PLAYS
+    { keywords: ["how do billionaires avoid taxes"], response: "Through offshore accounts, trusts, and legal loopholes like capital gains tax strategies." },
+    { keywords: ["what is a family office"], response: "A private investment firm managing the wealth of ultra-rich families." },
+    { keywords: ["what is the secret to making money"], response: "Own assets that appreciate over time—real estate, businesses, and investments." },
+
+    // ⚡ ULTIMATE LIFE HACKS & PRODUCTIVITY SECRETS
+    { keywords: ["how to wake up early"], response: "Use the 90-minute sleep cycle hack and avoid screens before bed." },
+    { keywords: ["how to learn anything fast"], response: "Use the Feynman technique: explain it simply, identify gaps, and refine understanding." },
+    { keywords: ["how to increase focus"], response: "Try the Pomodoro technique: 25-minute focused work sessions with short breaks." }
             ];
 
             for (const item of generalResponses) {
